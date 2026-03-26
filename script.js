@@ -134,10 +134,18 @@
     // ============================================
     var featureTabs = document.querySelectorAll('.feature-tab');
     var featurePanels = document.querySelectorAll('.feature-tab-panel');
+    var featurePanelsContainer = document.querySelector('.feature-panels');
     var featureAutoInterval = null;
     var currentFeatureIndex = 0;
 
-    function activateFeatureTab(index) {
+    // Lock panel container height to prevent layout shift
+    function lockPanelHeight() {
+        if (featurePanelsContainer) {
+            featurePanelsContainer.style.minHeight = featurePanelsContainer.offsetHeight + 'px';
+        }
+    }
+
+    function activateFeatureTab(index, isManualClick) {
         currentFeatureIndex = index % featureTabs.length;
         var tab = featureTabs[currentFeatureIndex];
         var targetTab = tab.getAttribute('data-tab');
@@ -145,11 +153,15 @@
         featureTabs.forEach(function (t) { t.classList.remove('active'); });
         tab.classList.add('active');
 
-        // Scroll active tab into view on mobile
-        var tabContainer = document.querySelector('.feature-tabs-scroll');
-        if (tabContainer && window.innerWidth < 1024) {
-            tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        // Only scroll tab into view on manual click, not auto-rotation
+        if (isManualClick) {
+            var tabContainer = document.querySelector('.feature-tabs-scroll');
+            if (tabContainer && window.innerWidth < 1024) {
+                tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
         }
+
+        lockPanelHeight();
 
         featurePanels.forEach(function (panel) {
             if (panel.getAttribute('data-panel') === targetTab) {
@@ -158,12 +170,19 @@
                 panel.classList.remove('active');
             }
         });
+
+        // Update min-height after new panel is visible
+        if (featurePanelsContainer) {
+            requestAnimationFrame(function () {
+                featurePanelsContainer.style.minHeight = featurePanelsContainer.offsetHeight + 'px';
+            });
+        }
     }
 
     function startFeatureAutoRotation() {
         stopFeatureAutoRotation();
         featureAutoInterval = setInterval(function () {
-            activateFeatureTab(currentFeatureIndex + 1);
+            activateFeatureTab(currentFeatureIndex + 1, false);
         }, 7000);
     }
 
@@ -176,8 +195,7 @@
 
     featureTabs.forEach(function (tab, index) {
         tab.addEventListener('click', function () {
-            activateFeatureTab(index);
-            // Reset timer on manual click
+            activateFeatureTab(index, true);
             startFeatureAutoRotation();
         });
     });
