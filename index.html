@@ -129,6 +129,50 @@
     }
     </script>
 
+    <!-- Structured Data: Reviews -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "NutrifyMi",
+        "review": [
+            {
+                "@type": "Review",
+                "author": {"@type": "Person", "name": "Priya S."},
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "reviewBody": "It actually recognized my mom's rajma chawal. No other app has ever done that."
+            },
+            {
+                "@type": "Review",
+                "author": {"@type": "Person", "name": "Arjun M."},
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "reviewBody": "The gamification got me logging meals for 12 days straight."
+            },
+            {
+                "@type": "Review",
+                "author": {"@type": "Person", "name": "Sneha R."},
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "reviewBody": "The glycemic index tracking is a game-changer for managing PCOS."
+            }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data: Founder -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "[Your Name]",
+        "jobTitle": "Founder",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "NutrifyMi"
+        },
+        "description": "Founder and developer of NutrifyMi, an AI-powered nutrition tracker for global cuisines."
+    }
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
@@ -785,35 +829,6 @@
         </div>
     </section>
 
-    <!-- Structured Data: Reviews -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "NutrifyMi",
-        "review": [
-            {
-                "@type": "Review",
-                "author": {"@type": "Person", "name": "Priya S."},
-                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-                "reviewBody": "It actually recognized my mom's rajma chawal. No other app has ever done that."
-            },
-            {
-                "@type": "Review",
-                "author": {"@type": "Person", "name": "Arjun M."},
-                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-                "reviewBody": "The gamification got me logging meals for 12 days straight."
-            },
-            {
-                "@type": "Review",
-                "author": {"@type": "Person", "name": "Sneha R."},
-                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-                "reviewBody": "The glycemic index tracking is a game-changer for managing PCOS."
-            }
-        ]
-    }
-    </script>
-
     <!-- ============================== -->
     <!-- REWARDS + IMPACT               -->
     <!-- ============================== -->
@@ -1154,21 +1169,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Structured Data: Founder -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "[Your Name]",
-        "jobTitle": "Founder",
-        "worksFor": {
-            "@type": "Organization",
-            "name": "NutrifyMi"
-        },
-        "description": "Founder and developer of NutrifyMi, an AI-powered nutrition tracker for global cuisines."
-    }
-    </script>
 
     <!-- Legal content moved to privacy.html, terms.html, disclaimer.html -->
     <!-- Old accordion legal content removed - see privacy.html, terms.html, disclaimer.html -->

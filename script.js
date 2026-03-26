@@ -427,47 +427,49 @@
     var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ============================================
-    // WAITLIST COUNTER (Supabase)
+    // WAITLIST COUNTER (Supabase) — Global scope
     // ============================================
-    var waitlistCount = null;
+    window.waitlistCount = null;
 
-    function getWaitlistCount() {
-        if (waitlistCount !== null) return Promise.resolve(waitlistCount);
+    window.getWaitlistCount = function () {
+        if (window.waitlistCount !== null) return Promise.resolve(window.waitlistCount);
         return supabase
             .from('waitlist')
             .select('*', { count: 'exact', head: true })
             .then(function (result) {
                 if (result.error) throw result.error;
-                waitlistCount = result.count || 0;
-                return waitlistCount;
+                window.waitlistCount = result.count || 0;
+                return window.waitlistCount;
             })
             .catch(function (e) {
                 console.warn('Could not fetch waitlist count:', e);
                 return null;
             });
-    }
+    };
 
-    function incrementWaitlistDisplay() {
-        waitlistCount = (waitlistCount || 0) + 1;
+    window.incrementWaitlistDisplay = function () {
+        window.waitlistCount = (window.waitlistCount || 0) + 1;
         document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
-            el.textContent = waitlistCount;
+            el.textContent = window.waitlistCount;
         });
-    }
+    };
 
     // Fetch count and animate counters on load
-    getWaitlistCount().then(function (count) {
+    window.getWaitlistCount().then(function (count) {
         if (count !== null && count > 0) {
             document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
                 var wrapper = el.closest('[data-waitlist-wrapper]');
                 if (wrapper) wrapper.classList.remove('hidden');
-                gsap.fromTo(el,
-                    { textContent: 0 },
-                    {
-                        textContent: count, duration: 1.5, ease: 'power2.out',
-                        snap: { textContent: 1 },
-                        onUpdate: function () { el.textContent = Math.round(this.targets()[0].textContent); }
+                // Use an object target for reliable GSAP animation
+                var target = { val: 0 };
+                gsap.to(target, {
+                    val: count,
+                    duration: 1.5,
+                    ease: 'power2.out',
+                    onUpdate: function () {
+                        el.textContent = Math.round(target.val);
                     }
-                );
+                });
             });
         }
     });
@@ -480,18 +482,20 @@
         if (!container) return;
         var colors = ['#059669', '#10b981', '#f59e0b', '#3b82f6', '#ec4899'];
         for (var i = 0; i < 20; i++) {
-            var dot = document.createElement('div');
-            dot.style.cssText = 'position:absolute;width:6px;height:6px;border-radius:50%;bottom:0;left:' + (Math.random() * 100) + '%;background:' + colors[Math.floor(Math.random() * colors.length)];
-            container.appendChild(dot);
-            gsap.to(dot, {
-                y: -(Math.random() * 80 + 40),
-                x: (Math.random() - 0.5) * 60,
-                opacity: 0,
-                duration: 1 + Math.random() * 0.5,
-                delay: Math.random() * 0.3,
-                ease: 'power2.out',
-                onComplete: function () { if (dot.parentNode) dot.parentNode.removeChild(dot); }
-            });
+            (function (index) {
+                var dot = document.createElement('div');
+                dot.style.cssText = 'position:absolute;width:6px;height:6px;border-radius:50%;bottom:0;left:' + (Math.random() * 100) + '%;background:' + colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(dot);
+                gsap.to(dot, {
+                    y: -(Math.random() * 80 + 40),
+                    x: (Math.random() - 0.5) * 60,
+                    opacity: 0,
+                    duration: 1 + Math.random() * 0.5,
+                    delay: Math.random() * 0.3,
+                    ease: 'power2.out',
+                    onComplete: function () { if (dot.parentNode) dot.parentNode.removeChild(dot); }
+                });
+            })(i);
         }
     }
 
@@ -502,14 +506,23 @@
     var emailInput = document.getElementById('waitlist-email');
     var formMessage = document.getElementById('form-message');
 
-    if (form) {
+    if (form && emailInput) {
+        // Clear error on input
+        emailInput.addEventListener('input', function () {
+            if (formMessage) formMessage.classList.add('hidden');
+        });
+
         form.addEventListener('submit', function (e) {
             e.preventDefault();
+            // Reset error state
+            if (formMessage) formMessage.classList.add('hidden');
+
             var email = emailInput.value.trim().toLowerCase();
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 formMessage.textContent = 'Please enter a valid email address.';
                 formMessage.className = 'text-[13px] mt-2 text-red-400';
                 formMessage.classList.remove('hidden');
+                emailInput.focus();
                 return;
             }
             var btn = form.querySelector('button');
@@ -532,7 +545,7 @@
                     }, 3000);
                 } else {
                     // Success: show success state
-                    incrementWaitlistDisplay();
+                    window.incrementWaitlistDisplay();
                     var formWrapper = document.getElementById('waitlist-form-wrapper');
                     var successEl = document.getElementById('waitlist-success');
                     if (formWrapper) formWrapper.classList.add('hidden');
