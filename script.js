@@ -1,5 +1,5 @@
 /**
- * NutrifyMI — Interactive Website
+ * NutrifyMi — Interactive Website
  * GSAP + Lenis + Custom Cursor + Feature Tabs + Hero Rotator
  */
 (function () {
@@ -300,6 +300,32 @@
         });
     });
 
+    // Social Proof Bar
+    var socialProof = document.getElementById('social-proof');
+    if (socialProof) {
+        gsap.from(socialProof, {
+            opacity: 0, y: 20, duration: 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: socialProof, start: 'top 90%', toggleActions: 'play none none none' }
+        });
+    }
+
+    // Testimonial Cards
+    gsap.utils.toArray('.testimonial-card').forEach(function (card, i) {
+        gsap.from(card, {
+            opacity: 0, y: 40, duration: 0.8, delay: i * 0.15, ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+    });
+
+    // Founder Section
+    var founderSection = document.getElementById('founder');
+    if (founderSection) {
+        gsap.from(founderSection.children[0], {
+            opacity: 0, scale: 0.95, duration: 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: founderSection, start: 'top 85%', toggleActions: 'play none none none' }
+        });
+    }
+
     // ============================================
     // SMOOTH ANCHOR SCROLL
     // ============================================
@@ -401,6 +427,75 @@
     var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ============================================
+    // WAITLIST COUNTER (Supabase)
+    // ============================================
+    var waitlistCount = null;
+
+    function getWaitlistCount() {
+        if (waitlistCount !== null) return Promise.resolve(waitlistCount);
+        return supabase
+            .from('waitlist')
+            .select('*', { count: 'exact', head: true })
+            .then(function (result) {
+                if (result.error) throw result.error;
+                waitlistCount = result.count || 0;
+                return waitlistCount;
+            })
+            .catch(function (e) {
+                console.warn('Could not fetch waitlist count:', e);
+                return null;
+            });
+    }
+
+    function incrementWaitlistDisplay() {
+        waitlistCount = (waitlistCount || 0) + 1;
+        document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
+            el.textContent = waitlistCount;
+        });
+    }
+
+    // Fetch count and animate counters on load
+    getWaitlistCount().then(function (count) {
+        if (count !== null && count > 0) {
+            document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
+                var wrapper = el.closest('[data-waitlist-wrapper]');
+                if (wrapper) wrapper.classList.remove('hidden');
+                gsap.fromTo(el,
+                    { textContent: 0 },
+                    {
+                        textContent: count, duration: 1.5, ease: 'power2.out',
+                        snap: { textContent: 1 },
+                        onUpdate: function () { el.textContent = Math.round(this.targets()[0].textContent); }
+                    }
+                );
+            });
+        }
+    });
+
+    // ============================================
+    // CONFETTI ANIMATION (for waitlist success)
+    // ============================================
+    function playConfetti() {
+        var container = document.getElementById('confetti-container');
+        if (!container) return;
+        var colors = ['#059669', '#10b981', '#f59e0b', '#3b82f6', '#ec4899'];
+        for (var i = 0; i < 20; i++) {
+            var dot = document.createElement('div');
+            dot.style.cssText = 'position:absolute;width:6px;height:6px;border-radius:50%;bottom:0;left:' + (Math.random() * 100) + '%;background:' + colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(dot);
+            gsap.to(dot, {
+                y: -(Math.random() * 80 + 40),
+                x: (Math.random() - 0.5) * 60,
+                opacity: 0,
+                duration: 1 + Math.random() * 0.5,
+                delay: Math.random() * 0.3,
+                ease: 'power2.out',
+                onComplete: function () { if (dot.parentNode) dot.parentNode.removeChild(dot); }
+            });
+        }
+    }
+
+    // ============================================
     // WAITLIST FORM
     // ============================================
     var form = document.getElementById('waitlist-form');
@@ -413,7 +508,7 @@
             var email = emailInput.value.trim().toLowerCase();
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 formMessage.textContent = 'Please enter a valid email address.';
-                formMessage.className = 'text-[13px] mt-3 text-red-400';
+                formMessage.className = 'text-[13px] mt-2 text-red-400';
                 formMessage.classList.remove('hidden');
                 return;
             }
@@ -425,22 +520,27 @@
                 if (result.error) {
                     if (result.error.code === '23505') {
                         formMessage.textContent = "You're already on the waitlist! We'll be in touch soon.";
-                        formMessage.className = 'text-[13px] mt-3 text-amber-400';
+                        formMessage.className = 'text-[13px] mt-2 text-amber-400';
                     } else {
                         formMessage.textContent = 'Something went wrong. Please try again.';
-                        formMessage.className = 'text-[13px] mt-3 text-red-400';
+                        formMessage.className = 'text-[13px] mt-2 text-red-400';
                     }
+                    formMessage.classList.remove('hidden');
+                    setTimeout(function () {
+                        btn.textContent = 'Get Early Access \u2014 It\u2019s Free';
+                        btn.disabled = false;
+                    }, 3000);
                 } else {
-                    emailInput.value = '';
-                    btn.textContent = 'Joined!';
-                    formMessage.textContent = "You're on the list! We'll email you when NutrifyMI launches.";
-                    formMessage.className = 'text-[13px] mt-3 text-brand-light';
+                    // Success: show success state
+                    incrementWaitlistDisplay();
+                    var formWrapper = document.getElementById('waitlist-form-wrapper');
+                    var successEl = document.getElementById('waitlist-success');
+                    if (formWrapper) formWrapper.classList.add('hidden');
+                    if (successEl) {
+                        successEl.classList.remove('hidden');
+                        playConfetti();
+                    }
                 }
-                formMessage.classList.remove('hidden');
-                setTimeout(function () {
-                    btn.textContent = 'Join Waitlist';
-                    btn.disabled = false;
-                }, 3000);
             });
         });
     }
