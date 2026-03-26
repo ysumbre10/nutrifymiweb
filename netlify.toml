@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+
+# Redirect www to non-www
+[[redirects]]
+  from = "https://www.nutrifymi.com/*"
+  to = "https://nutrifymi.com/:splat"
+  status = 301
+  force = true
+
+# Custom 404
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
