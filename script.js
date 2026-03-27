@@ -469,9 +469,7 @@
     window.getWaitlistCount().then(function (count) {
         var safeCount = (count !== null) ? count : 0;
 
-        // Always show the top banner regardless of count
         var banner = document.getElementById('waitlist-banner');
-        if (banner) banner.classList.remove('hidden');
 
         // Show inline waitlist wrappers only when count > 0
         document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
@@ -493,29 +491,11 @@
             }
         });
 
-        // Animate spots-left counter in sync
+        // Update spots-left counter immediately (no animation needed)
         document.querySelectorAll('[data-waitlist-spots]').forEach(function (el) {
-            var spotsTarget = { val: 100 };
-            gsap.to(spotsTarget, {
-                val: Math.max(0, 100 - safeCount),
-                duration: 1.5,
-                ease: 'power2.out',
-                onUpdate: function () {
-                    el.textContent = Math.round(spotsTarget.val);
-                }
-            });
+            el.textContent = Math.max(0, 100 - safeCount);
         });
 
-        // Push nav down to make room for the top banner
-        var nav = document.getElementById('nav');
-        if (banner && nav) {
-            var adjustNav = function () {
-                var bannerH = banner.offsetHeight;
-                nav.style.top = (bannerH + 8) + 'px';
-            };
-            adjustNav();
-            window.addEventListener('resize', adjustNav);
-        }
     });
 
     // ============================================
