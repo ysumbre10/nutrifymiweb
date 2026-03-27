@@ -2,7 +2,8 @@
 /* BASE                                        */
 /* ============================================ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; scroll-padding-top: 120px; }
+section[id] { scroll-margin-top: 120px; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }

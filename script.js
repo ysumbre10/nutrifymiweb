@@ -276,6 +276,14 @@
         });
     });
 
+    // Feature Cards
+    gsap.utils.toArray('.feature-card').forEach(function (card, i) {
+        gsap.to(card, {
+            opacity: 1, y: 0, duration: 0.8, delay: i * 0.15, ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' }
+        });
+    });
+
     // Step Cards
     gsap.utils.toArray('.step-card').forEach(function (card, i) {
         gsap.to(card, {
@@ -452,25 +460,53 @@
         document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
             el.textContent = window.waitlistCount;
         });
+        document.querySelectorAll('[data-waitlist-spots]').forEach(function (el) {
+            el.textContent = Math.max(0, 100 - window.waitlistCount);
+        });
     };
 
     // Fetch count and animate counters on load
     window.getWaitlistCount().then(function (count) {
-        if (count !== null && count > 0) {
-            document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
-                var wrapper = el.closest('[data-waitlist-wrapper]');
-                if (wrapper) wrapper.classList.remove('hidden');
-                // Use an object target for reliable GSAP animation
+        var safeCount = (count !== null) ? count : 0;
+
+        // Always show the top banner regardless of count
+        var banner = document.getElementById('waitlist-banner');
+        if (banner) banner.classList.remove('hidden');
+
+        // Show inline waitlist wrappers only when count > 0
+        document.querySelectorAll('[data-waitlist-count]').forEach(function (el) {
+            var wrapper = el.closest('[data-waitlist-wrapper]');
+            if (wrapper && wrapper.id !== 'waitlist-banner' && safeCount === 0) return;
+            if (wrapper) wrapper.classList.remove('hidden');
+            if (safeCount > 0) {
                 var target = { val: 0 };
                 gsap.to(target, {
-                    val: count,
+                    val: safeCount,
                     duration: 1.5,
                     ease: 'power2.out',
                     onUpdate: function () {
                         el.textContent = Math.round(target.val);
                     }
                 });
-            });
+            } else {
+                el.textContent = '0';
+            }
+        });
+
+        // Update spots-left counter
+        document.querySelectorAll('[data-waitlist-spots]').forEach(function (el) {
+            el.textContent = Math.max(0, 100 - safeCount);
+        });
+
+        // Push nav down to make room for the top banner
+        var nav = document.getElementById('nav');
+        if (banner && nav) {
+            var adjustNav = function () {
+                var bannerH = banner.offsetHeight;
+                nav.style.marginTop = bannerH + 'px';
+            };
+            adjustNav();
+            window.addEventListener('resize', adjustNav);
         }
     });
 
