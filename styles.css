@@ -271,6 +271,15 @@ body { overflow-x: hidden; cursor: none; }
 .reward-card { opacity: 0; transform: translateY(40px); }
 .pricing-card { opacity: 0; transform: translateY(40px); }
 
+/* Fallback: on touch/mobile devices, show all reveal elements immediately
+   in case ScrollTrigger + Lenis smooth scroll conflicts on iOS Safari */
+@media (hover: none) and (pointer: coarse) {
+    .feature-card, .step-card, .reward-card, .pricing-card,
+    .reveal-group > *, .reveal-item, .faq-group {
+        opacity: 1 !important; transform: none !important;
+    }
+}
+
 /* ============================================ */
 /* LEGAL ACCORDIONS                            */
 /* ============================================ */
