@@ -84,11 +84,11 @@ body { overflow-x: hidden; cursor: none; }
 /* NAV RESPONSIVE                              */
 /* ============================================ */
 @media (max-width: 639px) {
-    #nav { top: 48px; }
+    #nav { top: 56px; }
     #nav .nav-pill { border-radius: 1rem; }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
-    #nav { top: 50px; }
+    #nav { top: 58px; }
 }
 
 /* Mobile menu full-height lock */
