@@ -493,9 +493,17 @@
             }
         });
 
-        // Update spots-left counter
+        // Animate spots-left counter in sync
         document.querySelectorAll('[data-waitlist-spots]').forEach(function (el) {
-            el.textContent = Math.max(0, 100 - safeCount);
+            var spotsTarget = { val: 100 };
+            gsap.to(spotsTarget, {
+                val: Math.max(0, 100 - safeCount),
+                duration: 1.5,
+                ease: 'power2.out',
+                onUpdate: function () {
+                    el.textContent = Math.round(spotsTarget.val);
+                }
+            });
         });
 
         // Push nav down to make room for the top banner
@@ -503,7 +511,7 @@
         if (banner && nav) {
             var adjustNav = function () {
                 var bannerH = banner.offsetHeight;
-                nav.style.marginTop = bannerH + 'px';
+                nav.style.top = (bannerH + 8) + 'px';
             };
             adjustNav();
             window.addEventListener('resize', adjustNav);
