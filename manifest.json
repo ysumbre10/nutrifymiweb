@@ -1,6 +1,6 @@
 {
-  "name": "NutrifyMi — AI Calorie Counter",
-  "short_name": "NutrifyMi",
+  "name": "NutrifyMI — AI Calorie Counter",
+  "short_name": "NutrifyMI",
   "description": "AI-powered calorie counter and nutrition tracker. Snap any meal, get instant nutrition data.",
   "start_url": "/",
   "display": "standalone",

@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Intake Calculator - How Much Water Should You Drink? | NutrifyMI</title>
+    <meta name="description" content="Calculate your optimal daily water intake based on weight, activity level, climate and lifestyle. Free hydration calculator with personalized drinking schedule.">
+    <meta name="keywords" content="water intake calculator, how much water to drink, daily water intake, hydration calculator, water consumption calculator, drinking water calculator, water per day">
+    <meta name="author" content="NutrifyMI">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#059669">
+    <link rel="canonical" href="https://nutrifymi.com/tools/water-intake-calculator.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Water Intake Calculator - NutrifyMI Free Tool">
+    <meta property="og:description" content="Calculate your optimal daily water intake based on your body, activity, and climate. Get a personalized hydration schedule.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutrifymi.com/tools/water-intake-calculator.html">
+    <meta property="og:site_name" content="NutrifyMI">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Water Intake Calculator - NutrifyMI">
+    <meta name="twitter:description" content="Find out exactly how much water you need daily. Personalized hydration plan based on your lifestyle.">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Water Intake Calculator",
+        "description": "Calculate your optimal daily water intake based on weight, activity level, climate and lifestyle factors.",
+        "url": "https://nutrifymi.com/tools/water-intake-calculator.html",
+        "applicationCategory": "HealthApplication",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "creator": { "@type": "Organization", "name": "NutrifyMI", "url": "https://nutrifymi.com" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://nutrifymi.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://nutrifymi.com/tools.html" },
+            { "@type": "ListItem", "position": 3, "name": "Water Intake Calculator", "item": "https://nutrifymi.com/tools/water-intake-calculator.html" }
+        ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            DEFAULT: '#059669',
+                            light: '#10b981',
+                            dark: '#047857',
+                            darker: '#065f46'
+                        },
+                        surface: {
+                            DEFAULT: '#fafafa',
+                            50: '#f8fafc',
+                            100: '#f1f5f9'
+                        },
+                        water: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Instrument Serif', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Water fill animation */
+        @keyframes waterFill {
+            from { height: 0%; }
+        }
+        @keyframes waveMove {
+            0% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-25%) translateY(-2px); }
+            100% { transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes bubbleRise {
+            0% { transform: translateY(0) scale(1); opacity: 0.6; }
+            100% { transform: translateY(-120px) scale(0.3); opacity: 0; }
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dropletFall {
+            0% { transform: translateY(-20px) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .water-fill {
+            transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .wave {
+            animation: waveMove 3s ease-in-out infinite;
+        }
+        .bubble {
+            animation: bubbleRise 2.5s ease-in infinite;
+        }
+        .result-animate {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .droplet-animate {
+            animation: dropletFall 0.5s ease-out forwards;
+        }
+
+        /* Card selection styles */
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .option-card:hover {
+            border-color: #60a5fa;
+            background-color: #eff6ff;
+        }
+        .option-card.selected {
+            border-color: #3b82f6;
+            background-color: #dbeafe;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        /* Timeline dot pulse */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+        }
+        .timeline-dot {
+            animation: pulse 2s infinite;
+        }
+
+        /* Glass bottle shape */
+        .bottle-body {
+            clip-path: polygon(15% 0%, 85% 0%, 90% 5%, 90% 95%, 85% 100%, 15% 100%, 10% 95%, 10% 5%);
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Checkbox custom */
+        .custom-check:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+
+<body class="bg-[#fafafa] text-slate-800 font-sans antialiased">
+
+    <!-- Sticky Nav -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="../" class="flex items-center">
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900">Nutrify<span class="text-brand">MI</span></span>
+                </a>
+
+                <!-- Nav Links -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <a href="../tools.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-3 py-2 rounded-xl hover:bg-slate-100">
+                        All Tools
+                    </a>
+                    <a href="../#early-access" class="hidden sm:inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white text-sm font-semibold px-5 py-2.5 rounded-2xl transition-all shadow-sm hover:shadow-md">
+                        Join Waitlist
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                    </a>
+                    <a href="../#early-access" class="sm:hidden bg-brand hover:bg-brand-dark text-white text-sm font-semibold px-4 py-2 rounded-2xl transition-all">
+                        Waitlist
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="relative overflow-hidden">
+            <!-- Subtle water-themed bg -->
+            <div class="absolute inset-0 bg-gradient-to-br from-water-50 via-white to-blue-50/50"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-water-200/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-10 w-56 h-56 bg-water-100/30 rounded-full blur-3xl"></div>
+
+            <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 sm:pt-14 sm:pb-16">
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
+                    <a href="../" class="hover:text-brand transition-colors">Home</a>
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    <a href="../tools.html" class="hover:text-brand transition-colors">Free Tools</a>
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    <span class="text-slate-700 font-medium">Water Intake Calculator</span>
+                </nav>
+
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 bg-water-100 text-water-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Free Tool
+                </div>
+
+                <!-- Title -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4">
+                    Water Intake
+                    <span class="font-serif italic text-water-600"> Calculator</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-600 max-w-2xl leading-relaxed">
+                    Discover your optimal daily hydration target based on your body, activity level, climate, and lifestyle. Stay hydrated, stay healthy.
+                </p>
+
+                <!-- Droplet icons -->
+                <div class="flex items-center gap-2 mt-6">
+                    <span class="text-water-400">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+                    </span>
+                    <span class="text-water-300">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+                    </span>
+                    <span class="text-water-200">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+                <!-- Weight Input -->
+                <div class="p-6 sm:p-8 border-b border-slate-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-water-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-water-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900">Your Weight</h2>
+                            <p class="text-sm text-slate-500">Enter your current body weight</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="relative flex-1 max-w-xs">
+                            <input
+                                type="number"
+                                id="weight"
+                                min="20"
+                                max="300"
+                                placeholder="70"
+                                class="w-full px-4 py-3.5 text-lg font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-water-500 focus:border-transparent transition-all placeholder:text-slate-300"
+                            >
+                        </div>
+
+                        <!-- Unit Toggle -->
+                        <div class="flex bg-slate-100 rounded-xl p-1" role="radiogroup" aria-label="Weight unit">
+                            <button
+                                type="button"
+                                id="unit-kg"
+                                class="unit-btn px-4 py-2.5 text-sm font-semibold rounded-lg transition-all bg-white text-slate-900 shadow-sm"
+                                data-unit="kg"
+                                aria-checked="true"
+                                role="radio"
+                            >kg</button>
+                            <button
+                                type="button"
+                                id="unit-lbs"
+                                class="unit-btn px-4 py-2.5 text-sm font-semibold rounded-lg transition-all text-slate-500 hover:text-slate-700"
+                                data-unit="lbs"
+                                aria-checked="false"
+                                role="radio"
+                            >lbs</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Level -->
+                <div class="p-6 sm:p-8 border-b border-slate-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-water-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-water-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900">Activity Level</h2>
+                            <p class="text-sm text-slate-500">How active are you on a typical day?</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3" id="activity-options">
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="sedentary">
+                            <div class="text-2xl mb-2">&#128524;</div>
+                            <div class="text-sm font-semibold text-slate-800">Sedentary</div>
+                            <div class="text-xs text-slate-400 mt-1">Desk job</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="light">
+                            <div class="text-2xl mb-2">&#128694;</div>
+                            <div class="text-sm font-semibold text-slate-800">Light</div>
+                            <div class="text-xs text-slate-400 mt-1">1-2x/week</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="moderate">
+                            <div class="text-2xl mb-2">&#127939;</div>
+                            <div class="text-sm font-semibold text-slate-800">Moderate</div>
+                            <div class="text-xs text-slate-400 mt-1">3-5x/week</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="intense">
+                            <div class="text-2xl mb-2">&#127947;</div>
+                            <div class="text-sm font-semibold text-slate-800">Intense</div>
+                            <div class="text-xs text-slate-400 mt-1">6-7x/week</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center col-span-2 sm:col-span-1" data-value="athlete">
+                            <div class="text-2xl mb-2">&#127941;</div>
+                            <div class="text-sm font-semibold text-slate-800">Athlete</div>
+                            <div class="text-xs text-slate-400 mt-1">2x/day</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Climate -->
+                <div class="p-6 sm:p-8 border-b border-slate-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-water-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-water-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900">Climate</h2>
+                            <p class="text-sm text-slate-500">What is the typical weather where you live?</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="climate-options">
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="cool">
+                            <div class="text-2xl mb-2">&#10052;&#65039;</div>
+                            <div class="text-sm font-semibold text-slate-800">Cool</div>
+                            <div class="text-xs text-slate-400 mt-1">&lt; 15&#176;C</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="temperate">
+                            <div class="text-2xl mb-2">&#127780;&#65039;</div>
+                            <div class="text-sm font-semibold text-slate-800">Temperate</div>
+                            <div class="text-xs text-slate-400 mt-1">15-25&#176;C</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="hot">
+                            <div class="text-2xl mb-2">&#9728;&#65039;</div>
+                            <div class="text-sm font-semibold text-slate-800">Hot & Humid</div>
+                            <div class="text-xs text-slate-400 mt-1">25-35&#176;C</div>
+                        </button>
+                        <button type="button" class="option-card border-2 border-slate-200 rounded-2xl p-4 text-center" data-value="veryhot">
+                            <div class="text-2xl mb-2">&#128293;</div>
+                            <div class="text-sm font-semibold text-slate-800">Very Hot</div>
+                            <div class="text-xs text-slate-400 mt-1">&gt; 35&#176;C</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lifestyle Factors -->
+                <div class="p-6 sm:p-8 border-b border-slate-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-water-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-water-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900">Lifestyle Factors</h2>
+                            <p class="text-sm text-slate-500">Select any that apply to you</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="lifestyle-options">
+                        <label class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-2xl cursor-pointer hover:border-water-300 hover:bg-water-50/50 transition-all">
+                            <input type="checkbox" value="pregnant" class="custom-check w-5 h-5 rounded-md border-2 border-slate-300 text-water-600 focus:ring-water-500 accent-water-600">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-800">Pregnant</div>
+                                <div class="text-xs text-slate-400">+300ml recommended</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-2xl cursor-pointer hover:border-water-300 hover:bg-water-50/50 transition-all">
+                            <input type="checkbox" value="breastfeeding" class="custom-check w-5 h-5 rounded-md border-2 border-slate-300 text-water-600 focus:ring-water-500 accent-water-600">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-800">Breastfeeding</div>
+                                <div class="text-xs text-slate-400">+700ml recommended</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-2xl cursor-pointer hover:border-water-300 hover:bg-water-50/50 transition-all">
+                            <input type="checkbox" value="altitude" class="custom-check w-5 h-5 rounded-md border-2 border-slate-300 text-water-600 focus:ring-water-500 accent-water-600">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-800">High Altitude</div>
+                                <div class="text-xs text-slate-400">+500ml recommended</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-2xl cursor-pointer hover:border-water-300 hover:bg-water-50/50 transition-all">
+                            <input type="checkbox" value="caffeine" class="custom-check w-5 h-5 rounded-md border-2 border-slate-300 text-water-600 focus:ring-water-500 accent-water-600">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-800">High Caffeine Intake</div>
+                                <div class="text-xs text-slate-400">+250ml recommended</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Calculate Button -->
+                <div class="p-6 sm:p-8">
+                    <button
+                        type="button"
+                        id="calculate-btn"
+                        class="w-full sm:w-auto flex items-center justify-center gap-2 bg-water-600 hover:bg-water-700 text-white text-base font-bold px-10 py-4 rounded-2xl transition-all shadow-lg shadow-water-600/20 hover:shadow-xl hover:shadow-water-600/30 active:scale-[0.98]"
+                    >
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+                        Calculate My Water Intake
+                    </button>
+
+                    <p id="error-msg" class="text-sm text-red-500 mt-3 hidden">Please enter your weight and select your activity level and climate.</p>
+                </div>
+            </div>
+
+            <!-- Results Section (hidden by default) -->
+            <div id="results" class="hidden mt-8 space-y-6">
+
+                <!-- Main Result Card -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden result-animate">
+                    <div class="bg-gradient-to-r from-water-600 to-water-500 p-6 sm:p-8 text-white">
+                        <p class="text-water-100 text-sm font-medium mb-2">Your Daily Water Target</p>
+                        <div class="flex items-end gap-4 flex-wrap">
+                            <div>
+                                <span id="result-liters" class="text-5xl sm:text-6xl font-extrabold leading-none">0</span>
+                                <span class="text-xl font-medium text-water-100 ml-1">liters</span>
+                            </div>
+                            <div class="pb-1.5">
+                                <span class="text-water-200 text-lg">=</span>
+                                <span id="result-glasses" class="text-2xl font-bold ml-1">0</span>
+                                <span class="text-water-100 text-sm ml-1">glasses (250ml)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual: Water Bottle Animation + Hourly -->
+                    <div class="p-6 sm:p-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+
+                            <!-- Animated Water Bottle -->
+                            <div class="flex flex-col items-center">
+                                <div class="relative w-32 h-56">
+                                    <!-- Bottle outline -->
+                                    <div class="absolute inset-0 border-2 border-water-300 rounded-2xl overflow-hidden bg-water-50/30">
+                                        <!-- Water fill -->
+                                        <div id="water-fill" class="absolute bottom-0 left-0 right-0 water-fill bg-gradient-to-t from-water-500 to-water-400 rounded-b-xl" style="height: 0%;">
+                                            <!-- Wave SVG on top of water -->
+                                            <div class="absolute -top-3 left-0 w-[200%] wave">
+                                                <svg viewBox="0 0 1200 40" preserveAspectRatio="none" class="w-full h-4 fill-water-400">
+                                                    <path d="M0,20 C150,40 350,0 500,20 C650,40 850,0 1000,20 C1050,30 1150,10 1200,20 L1200,40 L0,40 Z"/>
+                                                </svg>
+                                            </div>
+                                            <!-- Bubbles -->
+                                            <div class="absolute bottom-4 left-6 w-2 h-2 rounded-full bg-white/40 bubble" style="animation-delay: 0s;"></div>
+                                            <div class="absolute bottom-8 left-14 w-1.5 h-1.5 rounded-full bg-white/30 bubble" style="animation-delay: 0.8s;"></div>
+                                            <div class="absolute bottom-2 left-20 w-1 h-1 rounded-full bg-white/30 bubble" style="animation-delay: 1.6s;"></div>
+                                        </div>
+                                        <!-- Markings -->
+                                        <div class="absolute left-2 top-[10%] w-3 h-px bg-water-300"></div>
+                                        <div class="absolute left-2 top-[30%] w-3 h-px bg-water-300"></div>
+                                        <div class="absolute left-2 top-[50%] w-3 h-px bg-water-300"></div>
+                                        <div class="absolute left-2 top-[70%] w-3 h-px bg-water-300"></div>
+                                        <div class="absolute left-2 top-[90%] w-3 h-px bg-water-300"></div>
+                                    </div>
+                                    <!-- Bottle cap -->
+                                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-water-300 rounded-t-lg border-2 border-water-300"></div>
+                                </div>
+                                <p id="fill-percent" class="mt-4 text-sm font-semibold text-water-600">0% of your daily target</p>
+                            </div>
+
+                            <!-- Hourly Breakdown -->
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-1">Hourly Breakdown</h3>
+                                <p class="text-sm text-slate-500 mb-4">Based on 16 waking hours</p>
+
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-water-50 rounded-xl">
+                                        <span class="text-sm font-medium text-slate-700">Per hour</span>
+                                        <span id="per-hour" class="text-base font-bold text-water-700">0 ml</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                        <span class="text-sm font-medium text-slate-700">Per 2 hours</span>
+                                        <span id="per-2hour" class="text-base font-bold text-slate-700">0 ml</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                        <span class="text-sm font-medium text-slate-700">With meals (3x)</span>
+                                        <span id="per-meal" class="text-base font-bold text-slate-700">0 ml</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                        <span class="text-sm font-medium text-slate-700">Between meals (5x)</span>
+                                        <span id="between-meals" class="text-base font-bold text-slate-700">0 ml</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drinking Schedule -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 result-animate" style="animation-delay: 0.15s;">
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Suggested Drinking Schedule</h3>
+                    <p class="text-sm text-slate-500 mb-6">A practical plan to hit your target throughout the day</p>
+
+                    <div class="relative">
+                        <!-- Timeline line -->
+                        <div class="absolute left-4 top-2 bottom-2 w-0.5 bg-water-200"></div>
+
+                        <div id="schedule-timeline" class="space-y-0">
+                            <!-- Will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personalized Tips -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 result-animate" style="animation-delay: 0.3s;">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Personalized Hydration Tips</h3>
+                    <div id="tips-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Will be populated by JS -->
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="bg-gradient-to-r from-brand-dark to-brand rounded-2xl p-8 sm:p-10 text-center text-white result-animate" style="animation-delay: 0.45s;">
+                    <div class="inline-flex items-center gap-2 bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+                        Coming Soon
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-3">Track Your Water Intake with NutrifyMI</h3>
+                    <p class="text-emerald-100 max-w-lg mx-auto mb-6">Set daily water goals, get smart reminders, and track your hydration alongside calories and macros - all in one app.</p>
+                    <a href="../#early-access" class="inline-flex items-center gap-2 bg-white text-brand-dark font-bold px-8 py-3.5 rounded-2xl hover:bg-emerald-50 transition-all shadow-lg">
+                        Join the Waitlist
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Educational Section -->
+        <section class="bg-white border-t border-slate-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Why Hydration
+                        <span class="font-serif italic text-water-600">Matters</span>
+                    </h2>
+                    <p class="text-slate-600 max-w-xl mx-auto">Water makes up about 60% of your body. Proper hydration is essential for virtually every function in your body.</p>
+                </div>
+
+                <!-- Grid of info cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-14">
+                    <!-- Card 1 -->
+                    <div class="border border-slate-200 rounded-2xl p-6">
+                        <div class="w-10 h-10 bg-water-100 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-water-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Benefits of Proper Hydration</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-water-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Regulates body temperature and blood pressure
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-water-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Supports digestion and nutrient absorption
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-water-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Improves energy levels and brain function
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-water-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Flushes toxins and supports kidney function
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-water-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Keeps skin healthy and joints lubricated
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="border border-slate-200 rounded-2xl p-6">
+                        <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Signs of Dehydration</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-0.5 shrink-0 text-xs">&#9679;</span>
+                                Dark yellow or amber-colored urine
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-0.5 shrink-0 text-xs">&#9679;</span>
+                                Persistent headaches and dizziness
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-0.5 shrink-0 text-xs">&#9679;</span>
+                                Fatigue, confusion, and irritability
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-0.5 shrink-0 text-xs">&#9679;</span>
+                                Dry mouth, lips, and skin
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-0.5 shrink-0 text-xs">&#9679;</span>
+                                Muscle cramps and reduced exercise performance
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="border border-slate-200 rounded-2xl p-6">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Tips to Drink More Water</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Carry a reusable water bottle everywhere
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Set hourly reminders on your phone
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Add lemon, cucumber, or mint for flavor
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Drink a glass before every meal
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                Start and end your day with a full glass
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="border border-slate-200 rounded-2xl p-6">
+                        <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Water-Rich Foods</h3>
+                        <p class="text-sm text-slate-600 mb-3">About 20% of your daily water comes from food. These foods are hydration superstars:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Cucumber 96%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Watermelon 92%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Strawberry 91%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Spinach 91%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Oranges 87%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Yogurt 85%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Tomatoes 94%</span>
+                            <span class="text-xs font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg">Celery 95%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-center">
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        <strong class="text-slate-600">Disclaimer:</strong> This calculator provides general hydration guidelines. Individual water needs vary based on many factors. People with kidney disease, heart conditions, or other medical conditions should consult their doctor for personalized advice. This tool is not a substitute for professional medical guidance.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 mt-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 pb-12 border-b border-white/[0.06]">
+                <div class="col-span-2 md:col-span-1">
+                    <a href="../" class="inline-block mb-5">
+                        <span class="text-xl font-extrabold text-white">Nutrify<span class="text-brand-light">MI</span></span>
+                    </a>
+                    <p class="text-[14px] text-slate-400 leading-relaxed mb-5">AI calorie counter &amp; nutrition tracker.<br>Any meal, anywhere. Real rewards.</p>
+                    <div class="flex gap-2.5">
+                        <a href="https://www.instagram.com/nutrifymi" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="Instagram"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                        <a href="https://www.linkedin.com/company/nutrifymi" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="LinkedIn"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                        <a href="https://www.youtube.com/@NutrifyMI" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="YouTube"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                        <a href="https://x.com/NutrifyMI" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="X"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../#features" class="text-[14px] hover:text-brand-light transition-colors">Features</a></li>
+                        <li><a href="../#how-it-works" class="text-[14px] hover:text-brand-light transition-colors">How It Works</a></li>
+                        <li><a href="../#rewards" class="text-[14px] hover:text-brand-light transition-colors">Rewards</a></li>
+                        <li><a href="../#pricing" class="text-[14px] hover:text-brand-light transition-colors">Pricing</a></li>
+                        <li><a href="../tools.html" class="text-[14px] hover:text-brand-light transition-colors">Free Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="mailto:hello@nutrifymi.com" class="text-[14px] hover:text-brand-light transition-colors">Contact</a></li>
+                        <li><a href="../#early-access" class="text-[14px] hover:text-brand-light transition-colors">Join Waitlist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../privacy.html" class="text-[14px] hover:text-brand-light transition-colors">Privacy Policy</a></li>
+                        <li><a href="../terms.html" class="text-[14px] hover:text-brand-light transition-colors">Terms of Service</a></li>
+                        <li><a href="../disclaimer.html" class="text-[14px] hover:text-brand-light transition-colors">Medical Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-[13px] text-slate-400">&copy; 2026 NutrifyMI. All rights reserved.</p>
+                <p class="text-[13px] text-slate-400">Made with care. The smartest AI calorie counter.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // State
+        let selectedUnit = 'kg';
+        let selectedActivity = null;
+        let selectedClimate = null;
+
+        // Unit toggle
+        document.querySelectorAll('.unit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.unit-btn').forEach(b => {
+                    b.classList.remove('bg-white', 'text-slate-900', 'shadow-sm');
+                    b.classList.add('text-slate-500');
+                    b.setAttribute('aria-checked', 'false');
+                });
+                btn.classList.add('bg-white', 'text-slate-900', 'shadow-sm');
+                btn.classList.remove('text-slate-500');
+                btn.setAttribute('aria-checked', 'true');
+                selectedUnit = btn.dataset.unit;
+            });
+        });
+
+        // Activity selection
+        document.querySelectorAll('#activity-options .option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('#activity-options .option-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedActivity = card.dataset.value;
+            });
+        });
+
+        // Climate selection
+        document.querySelectorAll('#climate-options .option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('#climate-options .option-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedClimate = card.dataset.value;
+            });
+        });
+
+        // Calculation logic
+        const activityAdditions = {
+            sedentary: 0,
+            light: 500,
+            moderate: 750,
+            intense: 1000,
+            athlete: 1500
+        };
+
+        const climateAdditions = {
+            cool: 0,
+            temperate: 250,
+            hot: 500,
+            veryhot: 750
+        };
+
+        const lifestyleAdditions = {
+            pregnant: 300,
+            breastfeeding: 700,
+            altitude: 500,
+            caffeine: 250
+        };
+
+        // Animated counter
+        function animateCounter(element, target, suffix, duration) {
+            const start = 0;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = start + (target - start) * eased;
+
+                if (suffix === 'L') {
+                    element.textContent = current.toFixed(1);
+                } else {
+                    element.textContent = Math.round(current);
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Build schedule
+        function buildSchedule(totalMl) {
+            const glassSize = 250;
+            const totalGlasses = Math.round(totalMl / glassSize);
+
+            const schedule = [
+                { time: '7:00 AM', label: 'Wake up', desc: 'Start your day with a glass of water to rehydrate after sleep', glasses: 1 },
+                { time: '8:00 AM', label: 'Breakfast', desc: 'Drink a glass with your morning meal', glasses: 1 },
+                { time: '10:00 AM', label: 'Mid-morning', desc: 'Keep the momentum going before lunch', glasses: Math.max(1, Math.round((totalGlasses - 5) * 0.2)) },
+                { time: '12:30 PM', label: 'Lunch', desc: 'Hydrate well with your midday meal', glasses: 1 },
+                { time: '3:00 PM', label: 'Afternoon', desc: 'Beat the afternoon slump with water', glasses: Math.max(1, Math.round((totalGlasses - 5) * 0.3)) },
+                { time: '5:30 PM', label: 'Pre-dinner', desc: 'A glass before dinner aids digestion', glasses: 1 },
+                { time: '7:00 PM', label: 'Dinner', desc: 'Sip water with your evening meal', glasses: 1 },
+                { time: '9:00 PM', label: 'Evening', desc: 'A small glass to wind down (not too much before bed)', glasses: Math.max(1, totalGlasses - schedule_running_total(totalGlasses)) }
+            ];
+
+            // Recalculate to ensure total matches
+            let assigned = 0;
+            for (let i = 0; i < schedule.length - 1; i++) {
+                assigned += schedule[i].glasses;
+            }
+            schedule[schedule.length - 1].glasses = Math.max(1, totalGlasses - assigned);
+
+            return schedule;
+        }
+
+        function schedule_running_total(totalGlasses) {
+            return 4 + Math.max(1, Math.round((totalGlasses - 5) * 0.2)) + Math.max(1, Math.round((totalGlasses - 5) * 0.3));
+        }
+
+        // Build tips
+        function buildTips(activity, climate, lifestyleFactors) {
+            const tips = [
+                {
+                    icon: '<svg class="w-5 h-5 text-water-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+                    title: 'Consistency is key',
+                    text: 'Spread your water intake evenly throughout the day rather than drinking large amounts at once.'
+                }
+            ];
+
+            if (activity === 'intense' || activity === 'athlete') {
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>',
+                    title: 'Exercise hydration',
+                    text: 'Drink 200-300ml 30 minutes before exercise, and 150-200ml every 15 minutes during intense workouts.'
+                });
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>',
+                    title: 'Replenish electrolytes',
+                    text: 'For workouts over 60 minutes, consider adding electrolytes (sodium, potassium) to your water.'
+                });
+            }
+
+            if (climate === 'hot' || climate === 'veryhot') {
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>',
+                    title: 'Hot climate hydration',
+                    text: 'You lose more water through sweat in hot weather. Always carry water when going outdoors and drink before you feel thirsty.'
+                });
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>',
+                    title: 'Watch for humidity',
+                    text: 'High humidity makes it harder for sweat to evaporate, so your body works harder to cool down. Drink extra water in humid conditions.'
+                });
+            }
+
+            if (lifestyleFactors.includes('caffeine')) {
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>',
+                    title: 'Offset caffeine',
+                    text: 'Caffeine is a mild diuretic. For every cup of coffee, drink an extra glass of water to compensate.'
+                });
+            }
+
+            if (lifestyleFactors.includes('altitude')) {
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 21l6-9 4 5 2-3 6 7"/></svg>',
+                    title: 'Altitude awareness',
+                    text: 'At high altitudes, you breathe faster and lose more moisture through respiration. Increase intake gradually when ascending.'
+                });
+            }
+
+            if (lifestyleFactors.includes('pregnant')) {
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>',
+                    title: 'Pregnancy hydration',
+                    text: 'Staying hydrated during pregnancy helps form amniotic fluid, produce extra blood, and reduce swelling. Sip throughout the day.'
+                });
+            }
+
+            if (lifestyleFactors.includes('breastfeeding')) {
+                tips.push({
+                    icon: '<svg class="w-5 h-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>',
+                    title: 'Nursing hydration',
+                    text: 'Breast milk is about 87% water. Keep a glass of water nearby during every feeding session.'
+                });
+            }
+
+            // Always include a general tip at end
+            tips.push({
+                icon: '<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+                title: 'Check your urine',
+                text: 'Pale yellow urine is a good sign of proper hydration. Dark yellow means you need to drink more.'
+            });
+
+            return tips;
+        }
+
+        // Calculate
+        document.getElementById('calculate-btn').addEventListener('click', () => {
+            const weightInput = document.getElementById('weight');
+            const weight = parseFloat(weightInput.value);
+            const errorMsg = document.getElementById('error-msg');
+
+            // Validate
+            if (!weight || weight <= 0 || !selectedActivity || !selectedClimate) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            errorMsg.classList.add('hidden');
+
+            // Convert lbs to kg if needed
+            const weightKg = selectedUnit === 'lbs' ? weight * 0.453592 : weight;
+
+            // Base calculation: 35ml per kg
+            let totalMl = weightKg * 35;
+
+            // Add activity
+            totalMl += activityAdditions[selectedActivity];
+
+            // Add climate
+            totalMl += climateAdditions[selectedClimate];
+
+            // Add lifestyle factors
+            const lifestyleFactors = [];
+            document.querySelectorAll('#lifestyle-options input[type="checkbox"]:checked').forEach(cb => {
+                lifestyleFactors.push(cb.value);
+                totalMl += lifestyleAdditions[cb.value];
+            });
+
+            const totalLiters = totalMl / 1000;
+            const totalGlasses = Math.round(totalMl / 250);
+            const perHour = Math.round(totalMl / 16);
+            const per2Hour = Math.round(totalMl / 8);
+            const perMeal = Math.round((totalMl * 0.35) / 3);   // 35% with meals
+            const betweenMeals = Math.round((totalMl * 0.65) / 5); // 65% between meals
+
+            // Show results
+            const results = document.getElementById('results');
+            results.classList.remove('hidden');
+
+            // Scroll to results
+            setTimeout(() => {
+                results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
+            // Animate numbers
+            animateCounter(document.getElementById('result-liters'), totalLiters, 'L', 1200);
+            animateCounter(document.getElementById('result-glasses'), totalGlasses, '', 1200);
+
+            // Update hourly breakdown
+            document.getElementById('per-hour').textContent = perHour + ' ml';
+            document.getElementById('per-2hour').textContent = per2Hour + ' ml';
+            document.getElementById('per-meal').textContent = perMeal + ' ml';
+            document.getElementById('between-meals').textContent = betweenMeals + ' ml';
+
+            // Water fill animation
+            const fillPercent = Math.min(100, (totalLiters / 4) * 100); // 4L = 100%
+            const waterFill = document.getElementById('water-fill');
+            waterFill.style.height = '0%';
+            setTimeout(() => {
+                waterFill.style.height = fillPercent + '%';
+            }, 300);
+            document.getElementById('fill-percent').textContent = Math.round(fillPercent) + '% of 4L bottle';
+
+            // Build schedule
+            const schedule = buildSchedule(totalMl);
+            const timelineContainer = document.getElementById('schedule-timeline');
+            timelineContainer.innerHTML = '';
+
+            schedule.forEach((item, index) => {
+                const ml = item.glasses * 250;
+                const div = document.createElement('div');
+                div.className = 'relative pl-12 pb-6';
+                div.style.animationDelay = (index * 0.08) + 's';
+                div.innerHTML = `
+                    <div class="absolute left-2.5 top-1 w-3 h-3 rounded-full bg-water-500 border-2 border-white shadow timeline-dot" style="animation-delay: ${index * 0.3}s;"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                        <span class="text-sm font-bold text-water-700 shrink-0 w-20">${item.time}</span>
+                        <div class="flex-1">
+                            <span class="text-sm font-semibold text-slate-800">${item.label}</span>
+                            <span class="text-xs text-slate-400 ml-2">${item.glasses} glass${item.glasses > 1 ? 'es' : ''} (${ml}ml)</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1 sm:ml-24">${item.desc}</p>
+                `;
+                timelineContainer.appendChild(div);
+            });
+
+            // Build tips
+            const tips = buildTips(selectedActivity, selectedClimate, lifestyleFactors);
+            const tipsContainer = document.getElementById('tips-container');
+            tipsContainer.innerHTML = '';
+
+            tips.forEach((tip, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-start gap-3 p-4 bg-slate-50 rounded-xl';
+                div.style.animationDelay = (index * 0.1) + 's';
+                div.innerHTML = `
+                    <div class="shrink-0 mt-0.5">${tip.icon}</div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800 mb-0.5">${tip.title}</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">${tip.text}</p>
+                    </div>
+                `;
+                tipsContainer.appendChild(div);
+            });
+        });
+
+        // Allow Enter key on weight input to trigger calculation
+        document.getElementById('weight').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('calculate-btn').click();
+            }
+        });
+    </script>
+</body>
+</html>

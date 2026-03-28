@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free TDEE & Calorie Calculator - NutrifyMI</title>
+    <meta name="description" content="Calculate your Total Daily Energy Expenditure (TDEE) and daily calorie needs. Uses the gold-standard Mifflin-St Jeor equation. Free, accurate, no sign-up required.">
+    <meta name="keywords" content="TDEE calculator, calorie calculator, BMR calculator, Mifflin-St Jeor, daily calorie needs, calorie deficit, calorie surplus, macro calculator, weight loss calculator, maintenance calories">
+    <meta name="author" content="NutrifyMI">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#059669">
+    <link rel="canonical" href="https://nutrifymi.com/tools/calorie-calculator.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free TDEE & Calorie Calculator - NutrifyMI">
+    <meta property="og:description" content="Find out exactly how many calories you need daily. Uses the Mifflin-St Jeor equation for accurate results.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutrifymi.com/tools/calorie-calculator.html">
+    <meta property="og:image" content="https://nutrifymi.com/images/og-image.png">
+    <meta property="og:site_name" content="NutrifyMI">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free TDEE & Calorie Calculator - NutrifyMI">
+    <meta name="twitter:description" content="Calculate your TDEE and daily calorie needs with the gold-standard Mifflin-St Jeor equation.">
+    <meta name="twitter:image" content="https://nutrifymi.com/images/og-image.png">
+    <meta name="twitter:site" content="@nutrifymi">
+
+    <!-- Structured Data: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://nutrifymi.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://nutrifymi.com/tools.html" },
+            { "@type": "ListItem", "position": 3, "name": "Calorie & TDEE Calculator", "item": "https://nutrifymi.com/tools/calorie-calculator.html" }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is TDEE?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TDEE stands for Total Daily Energy Expenditure. It is the total number of calories your body burns in a day, including your Basal Metabolic Rate (BMR) plus calories burned through physical activity, digestion, and non-exercise movement."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the Mifflin-St Jeor equation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Mifflin-St Jeor equation is considered the gold standard for estimating BMR. For men: BMR = 10 x weight(kg) + 6.25 x height(cm) - 5 x age + 5. For women: BMR = 10 x weight(kg) + 6.25 x height(cm) - 5 x age - 161."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between BMR and TDEE?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BMR (Basal Metabolic Rate) is the number of calories your body needs at complete rest just to maintain basic life functions. TDEE (Total Daily Energy Expenditure) includes your BMR plus all additional calories burned through activity, exercise, and digestion."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many calories should I eat to lose weight?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "To lose weight, you need to eat fewer calories than your TDEE. A moderate deficit of 500 calories per day leads to approximately 0.45 kg (1 lb) of weight loss per week. A mild deficit of 250 calories is more sustainable for long-term results."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data: WebApplication -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "NutrifyMI TDEE & Calorie Calculator",
+        "url": "https://nutrifymi.com/tools/calorie-calculator.html",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": "Free TDEE and calorie calculator using the Mifflin-St Jeor equation. Calculate your BMR, maintenance calories, and goal-adjusted intake.",
+        "creator": {
+            "@type": "Organization",
+            "name": "NutrifyMI",
+            "url": "https://nutrifymi.com"
+        }
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { DEFAULT: '#059669', light: '#10b981', dark: '#047857', darker: '#065f46' },
+                        surface: { DEFAULT: '#fafafa', 50: '#f8fafc', 100: '#f1f5f9' },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        serif: ['Instrument Serif', 'Georgia', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Selection */
+        ::selection { background: rgba(5, 150, 105, 0.2); color: #065f46; }
+
+        /* Number input spinners hide */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] { -moz-appearance: textfield; }
+
+        /* Animated counter */
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .count-animate {
+            animation: countUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Result card entrance */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-animate {
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Pulse ring on TDEE */
+        @keyframes pulseRing {
+            0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.3); }
+            70% { box-shadow: 0 0 0 12px rgba(5, 150, 105, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+        }
+        .pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+        /* Macro bar animation */
+        @keyframes growBar {
+            from { width: 0; }
+        }
+        .macro-bar { animation: growBar 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* Activity card hover */
+        .activity-card { transition: all 0.2s ease; }
+        .activity-card:hover { transform: translateY(-2px); }
+        .activity-card.selected {
+            border-color: #059669;
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(16, 185, 129, 0.08));
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+        }
+
+        /* Goal card */
+        .goal-card { transition: all 0.2s ease; }
+        .goal-card:hover { transform: translateY(-2px); }
+        .goal-card.selected {
+            border-color: #059669;
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(16, 185, 129, 0.08));
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+        }
+
+        /* Toggle pill */
+        .toggle-pill { transition: all 0.2s ease; }
+        .toggle-pill.active {
+            background: #059669;
+            color: white;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+        }
+
+        /* Deficit/surplus card */
+        .deficit-card { transition: all 0.15s ease; }
+        .deficit-card.selected {
+            border-color: #059669;
+            background: rgba(5, 150, 105, 0.05);
+        }
+
+        /* Smooth height transition for results */
+        #results-section {
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-[#fafafa] text-slate-800 font-sans antialiased selection:bg-brand/20 selection:text-brand-dark">
+
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../" class="text-xl font-extrabold text-slate-900">Nutrify<span class="text-brand">MI</span></a>
+            <div class="flex items-center gap-4 sm:gap-6">
+                <a href="../tools.html" class="text-sm font-medium text-slate-600 hover:text-brand transition-colors">All Tools</a>
+                <a href="../#early-access" class="text-sm font-semibold text-white bg-brand hover:bg-brand-dark px-4 py-2 rounded-2xl transition-colors">Join Waitlist</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+
+        <!-- HERO -->
+        <section class="pt-8 pb-10">
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm text-slate-400 mb-6" aria-label="Breadcrumb">
+                <a href="../" class="hover:text-brand transition-colors">Home</a>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                <a href="../tools.html" class="hover:text-brand transition-colors">Free Tools</a>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                <span class="text-slate-600 font-medium">Calorie Calculator</span>
+            </nav>
+
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 bg-brand/10 text-brand-dark px-3.5 py-1.5 rounded-full text-sm font-semibold mb-5">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Free Tool
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.1] tracking-tight mb-4">
+                Calorie & TDEE <span class="font-serif italic text-brand">Calculator</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-lg sm:text-xl text-slate-500 max-w-2xl leading-relaxed">
+                Find out exactly how many calories you need each day to reach your goals. Powered by the gold-standard Mifflin-St Jeor equation.
+            </p>
+        </section>
+
+        <!-- CALCULATOR CARD -->
+        <section class="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 sm:p-8 lg:p-10 mb-12">
+
+            <!-- Gender Toggle -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Gender</label>
+                <div class="inline-flex bg-slate-100 rounded-2xl p-1 gap-1">
+                    <button type="button" id="gender-male" onclick="setGender('male')" class="toggle-pill active px-6 py-2.5 rounded-xl text-sm font-semibold">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg>
+                            Male
+                        </span>
+                    </button>
+                    <button type="button" id="gender-female" onclick="setGender('female')" class="toggle-pill text-slate-500 px-6 py-2.5 rounded-xl text-sm font-semibold">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg>
+                            Female
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Age -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Age</label>
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="stepAge(-1)" class="w-10 h-10 rounded-xl border-2 border-slate-200 bg-white hover:border-brand hover:text-brand flex items-center justify-center text-lg font-bold transition-colors">-</button>
+                    <input type="number" id="age" value="25" min="15" max="100" class="w-20 h-12 text-center text-lg font-bold border-2 border-slate-200 rounded-xl focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all">
+                    <button type="button" onclick="stepAge(1)" class="w-10 h-10 rounded-xl border-2 border-slate-200 bg-white hover:border-brand hover:text-brand flex items-center justify-center text-lg font-bold transition-colors">+</button>
+                    <span class="text-sm text-slate-400 ml-1">years</span>
+                </div>
+            </div>
+
+            <!-- Unit Toggle -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Unit System</label>
+                <div class="inline-flex bg-slate-100 rounded-2xl p-1 gap-1">
+                    <button type="button" id="unit-metric" onclick="setUnit('metric')" class="toggle-pill active px-5 py-2 rounded-xl text-sm font-semibold">Metric (cm/kg)</button>
+                    <button type="button" id="unit-imperial" onclick="setUnit('imperial')" class="toggle-pill text-slate-500 px-5 py-2 rounded-xl text-sm font-semibold">Imperial (ft/lbs)</button>
+                </div>
+            </div>
+
+            <!-- Height -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Height</label>
+                <!-- Metric -->
+                <div id="height-metric" class="flex items-center gap-3">
+                    <input type="number" id="height-cm" value="170" min="100" max="250" class="w-24 h-12 text-center text-lg font-bold border-2 border-slate-200 rounded-xl focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all">
+                    <span class="text-sm text-slate-400">cm</span>
+                </div>
+                <!-- Imperial -->
+                <div id="height-imperial" class="hidden items-center gap-3">
+                    <input type="number" id="height-ft" value="5" min="3" max="8" class="w-20 h-12 text-center text-lg font-bold border-2 border-slate-200 rounded-xl focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all">
+                    <span class="text-sm text-slate-400">ft</span>
+                    <input type="number" id="height-in" value="7" min="0" max="11" class="w-20 h-12 text-center text-lg font-bold border-2 border-slate-200 rounded-xl focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all">
+                    <span class="text-sm text-slate-400">in</span>
+                </div>
+            </div>
+
+            <!-- Weight -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Weight</label>
+                <div class="flex items-center gap-3">
+                    <input type="number" id="weight" value="70" min="30" max="300" class="w-24 h-12 text-center text-lg font-bold border-2 border-slate-200 rounded-xl focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all">
+                    <span id="weight-unit-label" class="text-sm text-slate-400">kg</span>
+                </div>
+            </div>
+
+            <!-- Activity Level -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Activity Level</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <button type="button" onclick="setActivity(1.2, this)" class="activity-card selected text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="text-lg">&#128187;</span>
+                            <span class="text-sm font-bold text-slate-900">Sedentary</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Office job, little to no exercise</p>
+                    </button>
+                    <button type="button" onclick="setActivity(1.375, this)" class="activity-card text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="text-lg">&#128694;</span>
+                            <span class="text-sm font-bold text-slate-900">Lightly Active</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Light exercise 1-3 days/week</p>
+                    </button>
+                    <button type="button" onclick="setActivity(1.55, this)" class="activity-card text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="text-lg">&#127939;</span>
+                            <span class="text-sm font-bold text-slate-900">Moderately Active</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Moderate exercise 3-5 days/week</p>
+                    </button>
+                    <button type="button" onclick="setActivity(1.725, this)" class="activity-card text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="text-lg">&#127947;</span>
+                            <span class="text-sm font-bold text-slate-900">Very Active</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Hard exercise 6-7 days/week</p>
+                    </button>
+                    <button type="button" onclick="setActivity(1.9, this)" class="activity-card text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="text-lg">&#129351;</span>
+                            <span class="text-sm font-bold text-slate-900">Extra Active</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Athlete / very physical job + training</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Goal -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">Your Goal</label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button type="button" onclick="setGoal('lose', this)" class="goal-card text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-lg">&#128293;</span>
+                            <span class="text-sm font-bold text-slate-900">Lose Weight</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Calorie deficit</p>
+                    </button>
+                    <button type="button" onclick="setGoal('maintain', this)" class="goal-card selected text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-lg">&#9878;&#65039;</span>
+                            <span class="text-sm font-bold text-slate-900">Maintain</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Stay at current weight</p>
+                    </button>
+                    <button type="button" onclick="setGoal('gain', this)" class="goal-card text-left p-4 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-lg">&#128170;</span>
+                            <span class="text-sm font-bold text-slate-900">Gain Weight</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Calorie surplus</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <button type="button" onclick="calculate()" class="w-full bg-brand hover:bg-brand-dark text-white font-bold text-lg py-4 rounded-2xl transition-colors shadow-lg shadow-brand/20 hover:shadow-brand/30 active:scale-[0.98]">
+                Calculate My Calories
+            </button>
+
+            <!-- RESULTS -->
+            <div id="results-section" class="hidden mt-10">
+                <div class="result-animate">
+                    <!-- BMR & TDEE Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <!-- BMR Card -->
+                        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/60">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+                                <span class="text-sm font-semibold text-slate-500">Basal Metabolic Rate (BMR)</span>
+                            </div>
+                            <div class="flex items-baseline gap-1">
+                                <span id="result-bmr" class="text-3xl font-extrabold text-slate-900">0</span>
+                                <span class="text-sm text-slate-400">cal/day</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-2">Calories burned at complete rest</p>
+                        </div>
+
+                        <!-- TDEE Card -->
+                        <div class="bg-gradient-to-br from-brand/5 to-brand-light/10 rounded-2xl p-6 border-2 border-brand/20 pulse-ring">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg>
+                                <span class="text-sm font-semibold text-brand-dark">Maintenance Calories (TDEE)</span>
+                            </div>
+                            <div class="flex items-baseline gap-1">
+                                <span id="result-tdee" class="text-4xl font-extrabold text-brand-dark">0</span>
+                                <span class="text-sm text-brand-dark/60">cal/day</span>
+                            </div>
+                            <p class="text-xs text-brand-dark/50 mt-2">Total Daily Energy Expenditure</p>
+                        </div>
+                    </div>
+
+                    <!-- Goal Adjusted Calories -->
+                    <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span id="goal-label" class="text-sm font-bold text-slate-700">Maintenance Calories</span>
+                            <div class="flex items-baseline gap-1">
+                                <span id="result-goal" class="text-3xl font-extrabold text-slate-900">0</span>
+                                <span class="text-sm text-slate-400">cal/day</span>
+                            </div>
+                        </div>
+                        <p id="goal-change" class="text-xs text-slate-400"></p>
+                    </div>
+
+                    <!-- Deficit/Surplus Pace Selector -->
+                    <div id="deficit-options" class="hidden mb-6">
+                        <h3 id="deficit-title" class="text-sm font-bold text-slate-700 mb-3">Choose your deficit pace</h3>
+                        <div id="deficit-cards" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+                    </div>
+
+                    <!-- Macro Suggestion Bar -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/60 mb-6">
+                        <h3 class="text-sm font-bold text-slate-700 mb-4">Suggested Macro Split</h3>
+                        <!-- Stacked bar -->
+                        <div class="flex rounded-full overflow-hidden h-4 mb-4">
+                            <div id="bar-protein" class="bg-brand macro-bar" style="width:30%"></div>
+                            <div id="bar-carbs" class="bg-blue-500 macro-bar" style="width:40%"></div>
+                            <div id="bar-fat" class="bg-amber-500 macro-bar" style="width:30%"></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="flex items-center justify-center gap-1.5 mb-1">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-brand"></span>
+                                    <span class="text-xs font-semibold text-slate-500">Protein</span>
+                                </div>
+                                <p id="macro-protein" class="text-lg font-extrabold text-slate-900">0g</p>
+                                <p id="macro-protein-pct" class="text-xs text-slate-400">30%</p>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-center gap-1.5 mb-1">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                                    <span class="text-xs font-semibold text-slate-500">Carbs</span>
+                                </div>
+                                <p id="macro-carbs" class="text-lg font-extrabold text-slate-900">0g</p>
+                                <p id="macro-carbs-pct" class="text-xs text-slate-400">40%</p>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-center gap-1.5 mb-1">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                    <span class="text-xs font-semibold text-slate-500">Fat</span>
+                                </div>
+                                <p id="macro-fat" class="text-lg font-extrabold text-slate-900">0g</p>
+                                <p id="macro-fat-pct" class="text-xs text-slate-400">30%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Weight Change Estimate -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/60 mb-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+                            <span class="text-sm font-bold text-slate-700">Weekly Estimate</span>
+                        </div>
+                        <p id="weekly-text" class="text-lg font-extrabold text-slate-900 mb-1">Weight will remain stable</p>
+                        <p id="weekly-note" class="text-xs text-slate-400">Eating at maintenance keeps your weight consistent</p>
+                    </div>
+
+                    <!-- CTA to waitlist -->
+                    <div class="bg-gradient-to-br from-brand/5 to-brand-light/10 rounded-2xl p-6 border border-brand/20 text-center">
+                        <p class="text-sm font-bold text-brand-dark mb-1">Want to track your calories automatically?</p>
+                        <p class="text-xs text-slate-500 mb-4">NutrifyMI uses AI to count calories from any meal photo. Join the waitlist.</p>
+                        <a href="../#early-access" class="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-semibold text-sm px-6 py-3 rounded-2xl transition-colors">
+                            Join the Waitlist
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- EDUCATIONAL SECTIONS -->
+        <section class="space-y-12 mb-16">
+
+            <!-- What is TDEE? -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 sm:p-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">What is <span class="font-serif italic text-brand">TDEE?</span></h2>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    TDEE stands for <strong>Total Daily Energy Expenditure</strong>. It represents the total number of calories your body burns in a 24-hour period. Your TDEE accounts for everything: breathing, digesting food, walking, exercising, and even fidgeting.
+                </p>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    Knowing your TDEE is the foundation of any nutrition plan. If you eat more than your TDEE, you gain weight. If you eat less, you lose weight. If you match it, you maintain.
+                </p>
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/60">
+                    <p class="text-sm text-slate-500"><strong class="text-slate-700">Key insight:</strong> Your TDEE is made up of your BMR (about 60-70%), the thermic effect of food (about 10%), non-exercise activity thermogenesis or NEAT (about 15-20%), and exercise (about 5-10%).</p>
+                </div>
+            </div>
+
+            <!-- BMR vs TDEE -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 sm:p-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">BMR vs <span class="font-serif italic text-brand">TDEE</span></h2>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/60">
+                        <h3 class="font-bold text-slate-900 mb-2">BMR (Basal Metabolic Rate)</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">The number of calories your body needs at <strong>complete rest</strong> just to keep you alive. This includes breathing, circulation, cell production, and organ function. Think of it as the calories you'd burn if you stayed in bed all day.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-brand/5 to-brand-light/10 rounded-2xl p-5 border border-brand/20">
+                        <h3 class="font-bold text-brand-dark mb-2">TDEE (Total Daily Energy Expenditure)</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Your BMR <strong>plus</strong> all additional calories burned through daily activities, exercise, digestion, and non-exercise movement. This is the number you actually need to pay attention to for weight management.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to use your calorie target -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 sm:p-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">How to Use Your <span class="font-serif italic text-brand">Calorie Target</span></h2>
+                <div class="space-y-4">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-brand/10 rounded-xl flex items-center justify-center text-sm font-bold text-brand">1</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-1">To lose weight</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">Eat 250-750 calories below your TDEE. A moderate deficit of 500 cal/day leads to about 0.45 kg (1 lb) of fat loss per week. Never go below your BMR.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-brand/10 rounded-xl flex items-center justify-center text-sm font-bold text-brand">2</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-1">To maintain weight</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">Eat at your TDEE. Your weight will stay relatively stable. This is also a good starting point to understand your body's needs before making changes.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-brand/10 rounded-xl flex items-center justify-center text-sm font-bold text-brand">3</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-1">To gain weight</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">Eat 250-500 calories above your TDEE. Combined with resistance training, this supports lean muscle gain. A surplus of 250 cal/day minimizes fat gain.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-brand/10 rounded-xl flex items-center justify-center text-sm font-bold text-brand">4</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 mb-1">Track and adjust</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">Monitor your weight weekly and adjust by 100-200 calories if progress stalls. Calculators provide estimates; your body's real response is the best guide.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mifflin-St Jeor Formula -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 sm:p-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">The Mifflin-St Jeor <span class="font-serif italic text-brand">Formula</span></h2>
+                <p class="text-slate-600 leading-relaxed mb-5">
+                    This calculator uses the <strong>Mifflin-St Jeor equation</strong>, widely regarded as the most accurate formula for estimating BMR. Published in 1990, it has been validated in numerous studies and is recommended by the Academy of Nutrition and Dietetics.
+                </p>
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/60 mb-4 space-y-3">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">For Men</span>
+                        <p class="text-sm font-mono text-slate-700 mt-1">BMR = (10 x weight in kg) + (6.25 x height in cm) - (5 x age) + 5</p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">For Women</span>
+                        <p class="text-sm font-mono text-slate-700 mt-1">BMR = (10 x weight in kg) + (6.25 x height in cm) - (5 x age) - 161</p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Then</span>
+                        <p class="text-sm font-mono text-slate-700 mt-1">TDEE = BMR x Activity Multiplier</p>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500">Activity multipliers range from 1.2 (sedentary) to 1.9 (extra active) based on your weekly exercise frequency and intensity.</p>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- DARK CTA SECTION -->
+    <section class="bg-slate-950 py-16 sm:py-20">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Stop guessing. Start <span class="font-serif italic text-brand-light">tracking.</span></h2>
+            <p class="text-slate-400 text-lg mb-8 max-w-xl mx-auto">NutrifyMI uses AI to instantly count calories from any meal photo. Join the waitlist and be the first to try it.</p>
+            <a href="../#early-access" class="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-bold text-lg px-8 py-4 rounded-2xl transition-colors shadow-lg shadow-brand/20">
+                Join the Waitlist
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+            <p class="text-slate-500 text-sm mt-4">Free to join. No credit card required.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 mt-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 pb-12 border-b border-white/[0.06]">
+                <div class="col-span-2 md:col-span-1">
+                    <a href="../" class="inline-block mb-5">
+                        <span class="text-xl font-extrabold text-white">Nutrify<span class="text-brand-light">MI</span></span>
+                    </a>
+                    <p class="text-[14px] text-slate-400 leading-relaxed mb-5">AI calorie counter &amp; nutrition tracker.<br>Any meal, anywhere. Real rewards.</p>
+                    <div class="flex gap-2.5">
+                        <a href="https://www.instagram.com/nutrifymi" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="Instagram"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                        <a href="https://www.linkedin.com/company/nutrifymi" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="LinkedIn"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                        <a href="https://www.youtube.com/@NutrifyMI" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="YouTube"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                        <a href="https://x.com/NutrifyMI" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="X"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../#features" class="text-[14px] hover:text-brand-light transition-colors">Features</a></li>
+                        <li><a href="../#how-it-works" class="text-[14px] hover:text-brand-light transition-colors">How It Works</a></li>
+                        <li><a href="../#rewards" class="text-[14px] hover:text-brand-light transition-colors">Rewards</a></li>
+                        <li><a href="../#pricing" class="text-[14px] hover:text-brand-light transition-colors">Pricing</a></li>
+                        <li><a href="../tools.html" class="text-[14px] hover:text-brand-light transition-colors">Free Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="mailto:hello@nutrifymi.com" class="text-[14px] hover:text-brand-light transition-colors">Contact</a></li>
+                        <li><a href="../#early-access" class="text-[14px] hover:text-brand-light transition-colors">Join Waitlist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../privacy.html" class="text-[14px] hover:text-brand-light transition-colors">Privacy Policy</a></li>
+                        <li><a href="../terms.html" class="text-[14px] hover:text-brand-light transition-colors">Terms of Service</a></li>
+                        <li><a href="../disclaimer.html" class="text-[14px] hover:text-brand-light transition-colors">Medical Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-[13px] text-slate-400">&copy; 2026 NutrifyMI. All rights reserved.</p>
+                <p class="text-[13px] text-slate-400">Made with care. The smartest AI calorie counter.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ============================== -->
+    <!-- JAVASCRIPT                     -->
+    <!-- ============================== -->
+    <script>
+    // State
+    let state = {
+        gender: 'male',
+        age: 25,
+        unit: 'metric',
+        heightCm: 170,
+        heightFt: 5,
+        heightIn: 7,
+        weightKg: 70,
+        weightLbs: 154,
+        activity: 1.2,
+        goal: 'maintain',
+        deficitLevel: 500 // default moderate
+    };
+
+    // Setters
+    function setGender(g) {
+        state.gender = g;
+        document.getElementById('gender-male').classList.toggle('active', g === 'male');
+        document.getElementById('gender-male').classList.toggle('text-slate-500', g !== 'male');
+        document.getElementById('gender-female').classList.toggle('active', g === 'female');
+        document.getElementById('gender-female').classList.toggle('text-slate-500', g !== 'female');
+    }
+
+    function stepAge(delta) {
+        const input = document.getElementById('age');
+        let val = parseInt(input.value) || 25;
+        val = Math.max(15, Math.min(100, val + delta));
+        input.value = val;
+        state.age = val;
+    }
+
+    function setUnit(u) {
+        state.unit = u;
+        document.getElementById('unit-metric').classList.toggle('active', u === 'metric');
+        document.getElementById('unit-metric').classList.toggle('text-slate-500', u !== 'metric');
+        document.getElementById('unit-imperial').classList.toggle('active', u === 'imperial');
+        document.getElementById('unit-imperial').classList.toggle('text-slate-500', u !== 'imperial');
+
+        const metricH = document.getElementById('height-metric');
+        const imperialH = document.getElementById('height-imperial');
+        const weightLabel = document.getElementById('weight-unit-label');
+        const weightInput = document.getElementById('weight');
+
+        if (u === 'metric') {
+            metricH.classList.remove('hidden');
+            imperialH.classList.add('hidden');
+            imperialH.classList.remove('flex');
+            weightLabel.textContent = 'kg';
+            // Convert lbs to kg
+            const currentLbs = parseFloat(weightInput.value);
+            if (state.unit !== u) {
+                weightInput.value = Math.round(currentLbs / 2.205);
+            }
+        } else {
+            metricH.classList.add('hidden');
+            imperialH.classList.remove('hidden');
+            imperialH.classList.add('flex');
+            weightLabel.textContent = 'lbs';
+            // Convert kg to lbs
+            const currentKg = parseFloat(weightInput.value);
+            if (state.unit !== u) {
+                weightInput.value = Math.round(currentKg * 2.205);
+            }
+        }
+    }
+
+    function setActivity(multiplier, el) {
+        state.activity = multiplier;
+        document.querySelectorAll('.activity-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function setGoal(goal, el) {
+        state.goal = goal;
+        document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function setDeficit(level, el) {
+        state.deficitLevel = level;
+        document.querySelectorAll('.deficit-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        updateGoalDisplay();
+    }
+
+    // Animated counter
+    function animateValue(el, start, end, duration) {
+        const startTime = performance.now();
+        const diff = end - start;
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(start + diff * eased);
+            el.textContent = current.toLocaleString();
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    // Get values from inputs
+    function getInputValues() {
+        const age = parseInt(document.getElementById('age').value) || 25;
+        let heightCm, weightKg;
+
+        if (state.unit === 'metric') {
+            heightCm = parseFloat(document.getElementById('height-cm').value) || 170;
+            weightKg = parseFloat(document.getElementById('weight').value) || 70;
+        } else {
+            const ft = parseInt(document.getElementById('height-ft').value) || 5;
+            const inches = parseInt(document.getElementById('height-in').value) || 7;
+            heightCm = (ft * 12 + inches) * 2.54;
+            weightKg = (parseFloat(document.getElementById('weight').value) || 154) / 2.205;
+        }
+
+        return { age, heightCm, weightKg };
+    }
+
+    // Calculate
+    function calculate() {
+        const { age, heightCm, weightKg } = getInputValues();
+
+        // Mifflin-St Jeor
+        let bmr;
+        if (state.gender === 'male') {
+            bmr = 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
+        } else {
+            bmr = 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+        }
+        bmr = Math.round(bmr);
+
+        const tdee = Math.round(bmr * state.activity);
+
+        // Show results
+        const resultsEl = document.getElementById('results-section');
+        resultsEl.classList.remove('hidden');
+
+        // Scroll to results smoothly
+        setTimeout(() => {
+            resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+
+        // Animate numbers
+        animateValue(document.getElementById('result-bmr'), 0, bmr, 800);
+        animateValue(document.getElementById('result-tdee'), 0, tdee, 1000);
+
+        // Store for deficit/surplus display
+        state.bmr = bmr;
+        state.tdee = tdee;
+        state.deficitLevel = 500; // Reset to moderate
+
+        // Show deficit/surplus options
+        buildDeficitOptions(tdee);
+        updateGoalDisplay();
+    }
+
+    function buildDeficitOptions(tdee) {
+        const container = document.getElementById('deficit-options');
+        const cardsContainer = document.getElementById('deficit-cards');
+        const title = document.getElementById('deficit-title');
+
+        if (state.goal === 'maintain') {
+            container.classList.add('hidden');
+            return;
+        }
+
+        container.classList.remove('hidden');
+        const isLose = state.goal === 'lose';
+        title.textContent = isLose ? 'Choose your deficit pace' : 'Choose your surplus pace';
+
+        const options = isLose
+            ? [
+                { label: 'Mild', cal: 250, desc: '~0.25 kg/week', emoji: '&#127793;' },
+                { label: 'Moderate', cal: 500, desc: '~0.5 kg/week', emoji: '&#128293;' },
+                { label: 'Aggressive', cal: 750, desc: '~0.75 kg/week', emoji: '&#9889;' }
+              ]
+            : [
+                { label: 'Lean Gain', cal: 250, desc: '~0.25 kg/week', emoji: '&#127793;' },
+                { label: 'Moderate', cal: 500, desc: '~0.5 kg/week', emoji: '&#128170;' },
+                { label: 'Aggressive', cal: 750, desc: '~0.75 kg/week', emoji: '&#9889;' }
+              ];
+
+        cardsContainer.innerHTML = options.map((opt, i) => {
+            const selected = opt.cal === 500 ? 'selected' : '';
+            const sign = isLose ? '-' : '+';
+            return `<button type="button" onclick="setDeficit(${opt.cal}, this)" class="deficit-card ${selected} text-left p-4 rounded-xl border-2 border-slate-200 bg-white cursor-pointer hover:border-slate-300 transition-all">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm font-bold text-slate-900">${opt.emoji} ${opt.label}</span>
+                    <span class="text-xs font-semibold ${isLose ? 'text-red-500' : 'text-brand'}">${sign}${opt.cal}</span>
+                </div>
+                <p class="text-xs text-slate-400">${opt.desc} change</p>
+            </button>`;
+        }).join('');
+    }
+
+    function updateGoalDisplay() {
+        const tdee = state.tdee;
+        if (!tdee) return;
+
+        let goalCal, label, changeText;
+
+        if (state.goal === 'maintain') {
+            goalCal = tdee;
+            label = 'Maintenance Calories';
+            changeText = 'Eat at this level to maintain your current weight';
+        } else if (state.goal === 'lose') {
+            goalCal = tdee - state.deficitLevel;
+            label = 'Weight Loss Target';
+            changeText = `-${state.deficitLevel} cal/day deficit &bull; ~${(state.deficitLevel / 7700 * 7).toFixed(2)} kg/week loss`;
+        } else {
+            goalCal = tdee + state.deficitLevel;
+            label = 'Weight Gain Target';
+            changeText = `+${state.deficitLevel} cal/day surplus &bull; ~${(state.deficitLevel / 7700 * 7).toFixed(2)} kg/week gain`;
+        }
+
+        document.getElementById('goal-label').textContent = label;
+        animateValue(document.getElementById('result-goal'), 0, Math.round(goalCal), 800);
+        document.getElementById('goal-change').innerHTML = changeText;
+
+        // Update macros based on goal calories
+        updateMacros(goalCal);
+        updateWeeklyEstimate();
+    }
+
+    function updateMacros(calories) {
+        // Macro split based on goal
+        let proteinPct, carbsPct, fatPct;
+
+        if (state.goal === 'lose') {
+            proteinPct = 35; carbsPct = 35; fatPct = 30;
+        } else if (state.goal === 'gain') {
+            proteinPct = 30; carbsPct = 45; fatPct = 25;
+        } else {
+            proteinPct = 30; carbsPct = 40; fatPct = 30;
+        }
+
+        const proteinG = Math.round((calories * proteinPct / 100) / 4);
+        const carbsG = Math.round((calories * carbsPct / 100) / 4);
+        const fatG = Math.round((calories * fatPct / 100) / 9);
+
+        document.getElementById('macro-protein').textContent = proteinG + 'g';
+        document.getElementById('macro-carbs').textContent = carbsG + 'g';
+        document.getElementById('macro-fat').textContent = fatG + 'g';
+        document.getElementById('macro-protein-pct').textContent = proteinPct + '%';
+        document.getElementById('macro-carbs-pct').textContent = carbsPct + '%';
+        document.getElementById('macro-fat-pct').textContent = fatPct + '%';
+
+        // Animate bars
+        document.getElementById('bar-protein').style.width = proteinPct + '%';
+        document.getElementById('bar-carbs').style.width = carbsPct + '%';
+        document.getElementById('bar-fat').style.width = fatPct + '%';
+    }
+
+    function updateWeeklyEstimate() {
+        const textEl = document.getElementById('weekly-text');
+        const noteEl = document.getElementById('weekly-note');
+
+        if (state.goal === 'maintain') {
+            textEl.textContent = 'Weight will remain stable';
+            noteEl.textContent = 'Eating at maintenance keeps your weight consistent';
+        } else if (state.goal === 'lose') {
+            const weeklyKg = (state.deficitLevel / 7700 * 7).toFixed(2);
+            const weeklyLbs = (weeklyKg * 2.205).toFixed(1);
+            textEl.textContent = `~${weeklyKg} kg (${weeklyLbs} lbs) loss per week`;
+            noteEl.textContent = `Based on a ${state.deficitLevel} cal/day deficit from your TDEE`;
+        } else {
+            const weeklyKg = (state.deficitLevel / 7700 * 7).toFixed(2);
+            const weeklyLbs = (weeklyKg * 2.205).toFixed(1);
+            textEl.textContent = `~${weeklyKg} kg (${weeklyLbs} lbs) gain per week`;
+            noteEl.textContent = `Based on a ${state.deficitLevel} cal/day surplus above your TDEE`;
+        }
+    }
+
+    // Initialize: sync input listeners
+    document.getElementById('age').addEventListener('change', function() {
+        state.age = parseInt(this.value) || 25;
+    });
+    </script>
+
+</body>
+</html>

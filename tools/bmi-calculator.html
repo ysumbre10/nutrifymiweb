@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - Free Body Mass Index Tool | NutrifyMI</title>
+    <meta name="description" content="Calculate your Body Mass Index (BMI) instantly with our free BMI calculator. Understand your weight category, health risks, and get personalized tips. No sign-up required.">
+    <meta name="keywords" content="BMI calculator, body mass index, BMI chart, healthy weight, weight calculator, BMI categories, underweight, overweight, obesity, health tool, nutrition calculator">
+    <meta name="author" content="NutrifyMI">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="theme-color" content="#059669">
+    <link rel="canonical" href="https://nutrifymi.com/tools/bmi-calculator.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free BMI Calculator - Check Your Body Mass Index | NutrifyMI">
+    <meta property="og:description" content="Calculate your BMI instantly. Understand your weight category, health risks, and healthy weight range. Free, no sign-up required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutrifymi.com/tools/bmi-calculator.html">
+    <meta property="og:image" content="https://nutrifymi.com/images/og-image.png">
+    <meta property="og:site_name" content="NutrifyMI">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free BMI Calculator | NutrifyMI">
+    <meta name="twitter:description" content="Calculate your Body Mass Index instantly. Free tool, no sign-up required.">
+    <meta name="twitter:image" content="https://nutrifymi.com/images/og-image.png">
+    <meta name="twitter:site" content="@nutrifymi">
+
+    <!-- Structured Data: WebApplication -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BMI Calculator",
+        "description": "Free Body Mass Index (BMI) calculator. Enter your height and weight to instantly calculate your BMI, understand your weight category, and see your healthy weight range.",
+        "url": "https://nutrifymi.com/tools/bmi-calculator.html",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "NutrifyMI",
+            "url": "https://nutrifymi.com"
+        }
+    }
+    </script>
+
+    <!-- Structured Data: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://nutrifymi.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://nutrifymi.com/tools.html" },
+            { "@type": "ListItem", "position": 3, "name": "BMI Calculator", "item": "https://nutrifymi.com/tools/bmi-calculator.html" }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is BMI?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Body Mass Index (BMI) is a numerical value calculated from your weight and height. It provides a simple screening measure to categorize individuals as underweight, normal weight, overweight, or obese."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is BMI calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BMI is calculated by dividing your weight in kilograms by your height in meters squared. The formula is: BMI = weight (kg) / height (m)^2."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is a healthy BMI range?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A healthy BMI range is typically between 18.5 and 24.9. Below 18.5 is considered underweight, 25-29.9 is overweight, and 30 or above is classified as obese."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { DEFAULT: '#059669', light: '#10b981', dark: '#047857', darker: '#065f46' },
+                        surface: { DEFAULT: '#fafafa', 50: '#f8fafc', 100: '#f1f5f9' },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        serif: ['Instrument Serif', 'Georgia', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 999px;
+            outline: none;
+            background: linear-gradient(to right, #059669 0%, #059669 var(--progress, 50%), #e2e8f0 var(--progress, 50%), #e2e8f0 100%);
+            transition: background 0.1s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #059669;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 12px rgba(5, 150, 105, 0.5);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #059669;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+        }
+        input[type="range"]::-moz-range-track {
+            height: 6px;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+        input[type="range"]::-moz-range-progress {
+            height: 6px;
+            border-radius: 999px;
+            background: #059669;
+        }
+
+        /* Number input styling */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+            height: 32px;
+        }
+
+        /* Gauge animation */
+        .gauge-pointer {
+            transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Results fade in */
+        .results-enter {
+            animation: resultsFadeIn 0.5s ease-out forwards;
+        }
+        @keyframes resultsFadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* BMI value count-up feel */
+        .bmi-value-animate {
+            animation: bmiPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes bmiPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-[#fafafa] text-slate-800 font-sans antialiased">
+
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../" class="text-xl font-extrabold text-slate-900">Nutrify<span class="text-brand">MI</span></a>
+            <div class="flex items-center gap-4 sm:gap-6">
+                <a href="../tools.html" class="text-sm font-medium text-slate-600 hover:text-brand transition-colors">All Tools</a>
+                <a href="../#early-access" class="text-sm font-semibold text-white bg-brand hover:bg-brand-dark px-4 py-2 rounded-2xl transition-colors">Join Waitlist</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+
+        <!-- HERO -->
+        <section class="pt-8 pb-10">
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm text-slate-400 mb-6" aria-label="Breadcrumb">
+                <a href="../" class="hover:text-brand transition-colors">Home</a>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                <a href="../tools.html" class="hover:text-brand transition-colors">Free Tools</a>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                <span class="text-slate-600 font-medium">BMI Calculator</span>
+            </nav>
+
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full mb-4">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Free Tool
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">BMI <span class="font-serif italic text-brand">Calculator</span></h1>
+                    <p class="mt-3 text-base sm:text-lg text-slate-500 max-w-xl leading-relaxed">Calculate your Body Mass Index instantly and understand what your number means for your health.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CALCULATOR CARD -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-6 sm:p-8 lg:p-10">
+
+                <!-- Unit Toggle -->
+                <div class="flex justify-center mb-8">
+                    <div class="inline-flex bg-slate-100 rounded-xl p-1">
+                        <button id="btn-metric" onclick="switchUnit('metric')" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-brand text-white shadow-sm">Metric</button>
+                        <button id="btn-imperial" onclick="switchUnit('imperial')" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-500 hover:text-slate-700">Imperial</button>
+                    </div>
+                </div>
+
+                <!-- METRIC INPUTS -->
+                <div id="inputs-metric" class="space-y-8">
+                    <!-- Height (cm) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-sm font-semibold text-slate-700">Height</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="height-cm" value="170" min="50" max="250" class="w-20 text-right text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" oninput="syncSlider('height-cm','height-cm-slider')">
+                                <span class="text-sm text-slate-400 font-medium">cm</span>
+                            </div>
+                        </div>
+                        <input type="range" id="height-cm-slider" min="50" max="250" value="170" oninput="syncInput('height-cm-slider','height-cm')">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1.5"><span>50 cm</span><span>250 cm</span></div>
+                    </div>
+
+                    <!-- Weight (kg) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-sm font-semibold text-slate-700">Weight</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="weight-kg" value="70" min="20" max="300" step="0.1" class="w-20 text-right text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" oninput="syncSlider('weight-kg','weight-kg-slider')">
+                                <span class="text-sm text-slate-400 font-medium">kg</span>
+                            </div>
+                        </div>
+                        <input type="range" id="weight-kg-slider" min="20" max="300" value="70" oninput="syncInput('weight-kg-slider','weight-kg')">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1.5"><span>20 kg</span><span>300 kg</span></div>
+                    </div>
+                </div>
+
+                <!-- IMPERIAL INPUTS -->
+                <div id="inputs-imperial" class="space-y-8 hidden">
+                    <!-- Height (ft/in) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-sm font-semibold text-slate-700">Height</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="height-ft" value="5" min="1" max="8" class="w-16 text-right text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" oninput="syncImperialSlider()">
+                                <span class="text-sm text-slate-400 font-medium">ft</span>
+                                <input type="number" id="height-in" value="7" min="0" max="11" class="w-16 text-right text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" oninput="syncImperialSlider()">
+                                <span class="text-sm text-slate-400 font-medium">in</span>
+                            </div>
+                        </div>
+                        <input type="range" id="height-imperial-slider" min="36" max="96" value="67" oninput="syncImperialInput()">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1.5"><span>3 ft</span><span>8 ft</span></div>
+                    </div>
+
+                    <!-- Weight (lbs) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-sm font-semibold text-slate-700">Weight</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="weight-lbs" value="154" min="44" max="660" step="0.1" class="w-20 text-right text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" oninput="syncSlider('weight-lbs','weight-lbs-slider')">
+                                <span class="text-sm text-slate-400 font-medium">lbs</span>
+                            </div>
+                        </div>
+                        <input type="range" id="weight-lbs-slider" min="44" max="660" value="154" oninput="syncInput('weight-lbs-slider','weight-lbs')">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1.5"><span>44 lbs</span><span>660 lbs</span></div>
+                    </div>
+                </div>
+
+                <!-- Calculate Button -->
+                <div class="mt-10 text-center">
+                    <button onclick="calculate(true)" class="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-bold text-base px-10 py-4 rounded-2xl shadow-lg shadow-brand/25 hover:shadow-brand/40 transition-all duration-200 active:scale-[0.98]">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                        Calculate BMI
+                    </button>
+                </div>
+
+                <!-- RESULTS -->
+                <div id="results" class="hidden mt-10">
+                    <div class="results-enter">
+                        <!-- BMI Value Display -->
+                        <div class="text-center mb-8">
+                            <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Your BMI</p>
+                            <div class="bmi-value-animate inline-block">
+                                <span id="bmi-value" class="text-6xl sm:text-7xl font-extrabold leading-none">--</span>
+                            </div>
+                            <div>
+                                <span id="bmi-category-badge" class="inline-block mt-3 px-5 py-2 rounded-full text-sm font-bold">--</span>
+                            </div>
+                        </div>
+
+                        <!-- Visual Gauge -->
+                        <div class="max-w-lg mx-auto mb-8">
+                            <div class="relative h-5 rounded-full overflow-hidden flex">
+                                <div class="flex-1 bg-blue-400" title="Underweight"></div>
+                                <div class="flex-1 bg-green-400" title="Normal"></div>
+                                <div class="flex-1 bg-yellow-400" title="Overweight"></div>
+                                <div class="flex-1 bg-orange-400" title="Obese I"></div>
+                                <div class="flex-1 bg-red-400" title="Obese II"></div>
+                                <div class="flex-1 bg-red-600" title="Obese III"></div>
+                            </div>
+                            <!-- Pointer -->
+                            <div class="relative h-8">
+                                <div id="gauge-pointer" class="gauge-pointer absolute top-0 flex flex-col items-center" style="left: 50%;">
+                                    <div class="w-0 h-0 border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-slate-800"></div>
+                                    <span id="gauge-label" class="text-xs font-bold text-slate-700 mt-0.5">--</span>
+                                </div>
+                            </div>
+                            <!-- Gauge Labels -->
+                            <div class="flex justify-between text-[10px] sm:text-xs text-slate-400 -mt-1">
+                                <span>Underweight<br>&lt;18.5</span>
+                                <span class="text-center">Normal<br>18.5-24.9</span>
+                                <span class="text-center">Over<br>25-29.9</span>
+                                <span class="text-center">Obese I<br>30-34.9</span>
+                                <span class="text-center">Obese II<br>35-39.9</span>
+                                <span class="text-right">Obese III<br>40+</span>
+                            </div>
+                        </div>
+
+                        <!-- Details Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Health Risk</p>
+                                <p id="health-risk" class="text-sm font-semibold text-slate-700 leading-relaxed">--</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Healthy Weight Range</p>
+                                <p id="healthy-range" class="text-sm font-semibold text-slate-700 leading-relaxed">--</p>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="mt-8 text-center">
+                            <a href="../#early-access" class="inline-flex items-center gap-2 text-sm font-semibold text-brand hover:text-brand-dark transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                Get personalized nutrition insights with NutrifyMI
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATIONAL SECTIONS -->
+
+        <!-- What is BMI? -->
+        <section class="mt-16">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">What is <span class="font-serif italic text-brand">BMI?</span></h2>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+                <p class="text-slate-600 leading-relaxed mb-4">Body Mass Index (BMI) is a simple numerical value calculated from your weight and height. It is one of the most widely used screening tools to categorize individuals into weight categories that may indicate health risks.</p>
+                <p class="text-slate-600 leading-relaxed mb-4">The formula is straightforward:</p>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-5 mb-4">
+                    <p class="text-center font-mono text-lg font-bold text-slate-800">BMI = weight (kg) / height (m)<sup>2</sup></p>
+                </div>
+                <p class="text-slate-600 leading-relaxed">While BMI does not directly measure body fat, research has shown it correlates with more direct measures of body fat such as skinfold thickness, bioelectrical impedance, and dual-energy x-ray absorptiometry (DEXA). It is used globally by healthcare professionals as a quick, inexpensive way to screen for potential weight-related health problems.</p>
+            </div>
+        </section>
+
+        <!-- BMI Categories Table -->
+        <section class="mt-12">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">BMI <span class="font-serif italic text-brand">Categories</span></h2>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200">
+                                <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-4">Category</th>
+                                <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-4">BMI Range</th>
+                                <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-4">Health Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-blue-400 inline-block flex-shrink-0"></span>Underweight
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600">Below 18.5</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">Possible nutritional deficiency and osteoporosis</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-green-400 inline-block flex-shrink-0"></span>Normal Weight
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600">18.5 - 24.9</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">Low risk - maintain healthy habits</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block flex-shrink-0"></span>Overweight
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600">25.0 - 29.9</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">Increased risk of heart disease and type 2 diabetes</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-orange-400 inline-block flex-shrink-0"></span>Obese (Class I)
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600">30.0 - 34.9</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">High risk of cardiovascular disease and metabolic syndrome</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-red-400 inline-block flex-shrink-0"></span>Obese (Class II)
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600">35.0 - 39.9</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">Very high risk - consult a healthcare professional</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-red-600 inline-block flex-shrink-0"></span>Obese (Class III)
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600">40.0 and above</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">Extremely high risk - seek medical advice promptly</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Limitations of BMI -->
+        <section class="mt-12">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">Limitations of <span class="font-serif italic text-brand">BMI</span></h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Doesn't Measure Body Fat</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">BMI cannot distinguish between muscle mass and fat mass. Athletes with high muscle mass may be classified as overweight or obese despite having low body fat.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Age and Gender Differences</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">BMI thresholds are the same for men and women, yet body composition varies by sex. It also does not account for changes in body composition that occur with aging.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Ethnic Variations</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Different ethnic groups may have different health risk levels at the same BMI. For example, Asian populations may face higher risks at lower BMI values compared to Western populations.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">No Fat Distribution Info</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">BMI does not indicate where fat is stored. Abdominal (visceral) fat carries greater health risks than fat stored in other areas, but BMI cannot differentiate between the two.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips for a Healthy BMI -->
+        <section class="mt-12">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">Tips for a Healthy <span class="font-serif italic text-brand">BMI</span></h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Balanced Nutrition</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Focus on whole foods, fruits, vegetables, lean proteins, and whole grains. Avoid excessive processed foods and sugary beverages.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Regular Exercise</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Aim for at least 150 minutes of moderate aerobic activity or 75 minutes of vigorous activity per week, combined with strength training.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Quality Sleep</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Get 7-9 hours of quality sleep each night. Poor sleep disrupts hunger hormones and can lead to weight gain over time.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Manage Stress</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Chronic stress raises cortisol levels, which promotes fat storage. Practice mindfulness, meditation, or other stress-management techniques.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Stay Consistent</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Small, sustainable changes over time are more effective than drastic diets. Track your progress and celebrate small wins along the way.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Seek Professional Help</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Consult a doctor, dietitian, or nutritionist for personalized guidance, especially if your BMI falls outside the normal range.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- DARK CTA SECTION -->
+    <section class="bg-slate-900 py-16 sm:py-20">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-4">Want AI-Powered <span class="font-serif italic text-brand-light">Nutrition Tracking?</span></h2>
+            <p class="text-slate-400 text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto">NutrifyMI uses AI to instantly track calories, macros, and nutrients from any meal. Just snap a photo and let our AI do the rest.</p>
+            <a href="../#early-access" class="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-bold text-base px-8 py-4 rounded-2xl shadow-lg shadow-brand/25 hover:shadow-brand/40 transition-all duration-200">
+                Join the Waitlist
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 mt-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 pb-12 border-b border-white/[0.06]">
+                <div class="col-span-2 md:col-span-1">
+                    <a href="../" class="inline-block mb-5">
+                        <span class="text-xl font-extrabold text-white">Nutrify<span class="text-brand-light">MI</span></span>
+                    </a>
+                    <p class="text-[14px] text-slate-400 leading-relaxed mb-5">AI calorie counter &amp; nutrition tracker.<br>Any meal, anywhere. Real rewards.</p>
+                    <div class="flex gap-2.5">
+                        <a href="https://www.instagram.com/nutrifymi" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="Instagram"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                        <a href="https://www.linkedin.com/company/nutrifymi" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="LinkedIn"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                        <a href="https://www.youtube.com/@NutrifyMI" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="YouTube"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                        <a href="https://x.com/NutrifyMI" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/5 rounded-xl flex items-center justify-center hover:bg-brand/20 hover:text-brand-light transition-all" aria-label="X"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../#features" class="text-[14px] hover:text-brand-light transition-colors">Features</a></li>
+                        <li><a href="../#how-it-works" class="text-[14px] hover:text-brand-light transition-colors">How It Works</a></li>
+                        <li><a href="../#rewards" class="text-[14px] hover:text-brand-light transition-colors">Rewards</a></li>
+                        <li><a href="../#pricing" class="text-[14px] hover:text-brand-light transition-colors">Pricing</a></li>
+                        <li><a href="../tools.html" class="text-[14px] hover:text-brand-light transition-colors">Free Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="mailto:hello@nutrifymi.com" class="text-[14px] hover:text-brand-light transition-colors">Contact</a></li>
+                        <li><a href="../#early-access" class="text-[14px] hover:text-brand-light transition-colors">Join Waitlist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-[14px] mb-4">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../privacy.html" class="text-[14px] hover:text-brand-light transition-colors">Privacy Policy</a></li>
+                        <li><a href="../terms.html" class="text-[14px] hover:text-brand-light transition-colors">Terms of Service</a></li>
+                        <li><a href="../disclaimer.html" class="text-[14px] hover:text-brand-light transition-colors">Medical Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-[13px] text-slate-400">&copy; 2026 NutrifyMI. All rights reserved.</p>
+                <p class="text-[13px] text-slate-400">Made with care. The smartest AI calorie counter.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+    (function() {
+        'use strict';
+
+        // State
+        let currentUnit = 'metric';
+
+        // DOM refs
+        const $id = (id) => document.getElementById(id);
+
+        // ---- Unit switching ----
+        window.switchUnit = function(unit) {
+            currentUnit = unit;
+            const isMetric = unit === 'metric';
+
+            $id('inputs-metric').classList.toggle('hidden', !isMetric);
+            $id('inputs-imperial').classList.toggle('hidden', isMetric);
+
+            // Toggle button styles
+            $id('btn-metric').className = isMetric
+                ? 'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-brand text-white shadow-sm'
+                : 'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-500 hover:text-slate-700';
+            $id('btn-imperial').className = !isMetric
+                ? 'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-brand text-white shadow-sm'
+                : 'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-500 hover:text-slate-700';
+
+            // Sync values between units
+            if (isMetric) {
+                const totalInches = parseInt($id('height-ft').value) * 12 + parseInt($id('height-in').value);
+                const cm = Math.round(totalInches * 2.54);
+                const kg = (parseFloat($id('weight-lbs').value) / 2.20462).toFixed(1);
+                $id('height-cm').value = cm;
+                $id('height-cm-slider').value = cm;
+                $id('weight-kg').value = kg;
+                $id('weight-kg-slider').value = kg;
+                updateSliderProgress($id('height-cm-slider'));
+                updateSliderProgress($id('weight-kg-slider'));
+            } else {
+                const cm = parseFloat($id('height-cm').value);
+                const totalInches = Math.round(cm / 2.54);
+                const ft = Math.floor(totalInches / 12);
+                const inches = totalInches % 12;
+                const lbs = (parseFloat($id('weight-kg').value) * 2.20462).toFixed(1);
+                $id('height-ft').value = ft;
+                $id('height-in').value = inches;
+                $id('height-imperial-slider').value = totalInches;
+                $id('weight-lbs').value = lbs;
+                $id('weight-lbs-slider').value = Math.round(parseFloat(lbs));
+                updateSliderProgress($id('height-imperial-slider'));
+                updateSliderProgress($id('weight-lbs-slider'));
+            }
+
+            calculate();
+        };
+
+        // ---- Slider <-> Input sync ----
+        window.syncSlider = function(inputId, sliderId) {
+            const val = parseFloat($id(inputId).value);
+            if (!isNaN(val)) {
+                $id(sliderId).value = val;
+                updateSliderProgress($id(sliderId));
+            }
+        };
+
+        window.syncInput = function(sliderId, inputId) {
+            $id(inputId).value = $id(sliderId).value;
+            updateSliderProgress($id(sliderId));
+        };
+
+        window.syncImperialSlider = function() {
+            const ft = parseInt($id('height-ft').value) || 0;
+            const inches = parseInt($id('height-in').value) || 0;
+            const totalInches = ft * 12 + inches;
+            $id('height-imperial-slider').value = totalInches;
+            updateSliderProgress($id('height-imperial-slider'));
+        };
+
+        window.syncImperialInput = function() {
+            const totalInches = parseInt($id('height-imperial-slider').value);
+            $id('height-ft').value = Math.floor(totalInches / 12);
+            $id('height-in').value = totalInches % 12;
+            updateSliderProgress($id('height-imperial-slider'));
+        };
+
+        // ---- Slider progress visual ----
+        function updateSliderProgress(slider) {
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            const val = parseFloat(slider.value);
+            const pct = ((val - min) / (max - min)) * 100;
+            slider.style.setProperty('--progress', pct + '%');
+        }
+
+        // Initialize all sliders
+        document.querySelectorAll('input[type="range"]').forEach(updateSliderProgress);
+
+        // ---- BMI Calculation ----
+        window.calculate = function(showResults) {
+            let heightM, weightKg;
+
+            if (currentUnit === 'metric') {
+                const cm = parseFloat($id('height-cm').value);
+                weightKg = parseFloat($id('weight-kg').value);
+                heightM = cm / 100;
+            } else {
+                const ft = parseInt($id('height-ft').value) || 0;
+                const inches = parseInt($id('height-in').value) || 0;
+                const totalInches = ft * 12 + inches;
+                const lbs = parseFloat($id('weight-lbs').value);
+                heightM = totalInches * 0.0254;
+                weightKg = lbs / 2.20462;
+            }
+
+            if (!heightM || heightM <= 0 || !weightKg || weightKg <= 0) return;
+
+            const bmi = weightKg / (heightM * heightM);
+            const bmiRounded = Math.round(bmi * 10) / 10;
+
+            // Category
+            let category, color, bgColor, textColor, healthRisk;
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                color = '#3b82f6';
+                bgColor = 'bg-blue-50';
+                textColor = 'text-blue-600';
+                healthRisk = 'Possible nutritional deficiency and osteoporosis';
+            } else if (bmi < 25) {
+                category = 'Normal';
+                color = '#22c55e';
+                bgColor = 'bg-green-50';
+                textColor = 'text-green-600';
+                healthRisk = 'Low risk - keep up the healthy habits!';
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                color = '#eab308';
+                bgColor = 'bg-yellow-50';
+                textColor = 'text-yellow-600';
+                healthRisk = 'Increased risk of heart disease and type 2 diabetes';
+            } else if (bmi < 35) {
+                category = 'Obese (Class I)';
+                color = '#f97316';
+                bgColor = 'bg-orange-50';
+                textColor = 'text-orange-600';
+                healthRisk = 'High risk of cardiovascular disease and metabolic syndrome';
+            } else if (bmi < 40) {
+                category = 'Obese (Class II)';
+                color = '#ef4444';
+                bgColor = 'bg-red-50';
+                textColor = 'text-red-600';
+                healthRisk = 'Very high risk - consult a healthcare professional';
+            } else {
+                category = 'Obese (Class III)';
+                color = '#dc2626';
+                bgColor = 'bg-red-50';
+                textColor = 'text-red-700';
+                healthRisk = 'Extremely high risk - seek medical advice promptly';
+            }
+
+            // Healthy weight range
+            const healthyLow = (18.5 * heightM * heightM).toFixed(1);
+            const healthyHigh = (24.9 * heightM * heightM).toFixed(1);
+            let healthyRange;
+            if (currentUnit === 'metric') {
+                healthyRange = healthyLow + ' - ' + healthyHigh + ' kg';
+            } else {
+                const lowLbs = (healthyLow * 2.20462).toFixed(1);
+                const highLbs = (healthyHigh * 2.20462).toFixed(1);
+                healthyRange = lowLbs + ' - ' + highLbs + ' lbs';
+            }
+
+            // Gauge position (BMI 10 to 50 mapped to 0-100%)
+            const gaugeMin = 10;
+            const gaugeMax = 50;
+            const gaugePct = Math.max(0, Math.min(100, ((bmiRounded - gaugeMin) / (gaugeMax - gaugeMin)) * 100));
+
+            // Update DOM
+            $id('bmi-value').textContent = bmiRounded;
+            $id('bmi-value').style.color = color;
+
+            const badge = $id('bmi-category-badge');
+            badge.textContent = category;
+            badge.className = 'inline-block mt-3 px-5 py-2 rounded-full text-sm font-bold ' + bgColor + ' ' + textColor;
+
+            $id('gauge-pointer').style.left = 'calc(' + gaugePct + '% - 2px)';
+            $id('gauge-label').textContent = bmiRounded;
+
+            $id('health-risk').textContent = healthRisk;
+            $id('healthy-range').textContent = healthyRange;
+
+            // Show results
+            const results = $id('results');
+            if (results.classList.contains('hidden') || showResults) {
+                results.classList.remove('hidden');
+                // Re-trigger animation
+                const inner = results.querySelector('.results-enter');
+                inner.style.animation = 'none';
+                // Force reflow
+                void inner.offsetHeight;
+                inner.style.animation = '';
+
+                // Re-trigger BMI pop
+                const bmiEl = $id('bmi-value').parentElement;
+                bmiEl.classList.remove('bmi-value-animate');
+                void bmiEl.offsetHeight;
+                bmiEl.classList.add('bmi-value-animate');
+            }
+        };
+
+        // ---- Initialize: run calculation on page load ----
+        // Don't show results until user clicks or adjusts
+        // But update slider progress
+        document.querySelectorAll('input[type="range"]').forEach(function(slider) {
+            updateSliderProgress(slider);
+            slider.addEventListener('input', function() {
+                updateSliderProgress(this);
+            });
+        });
+
+    })();
+    </script>
+</body>
+</html>

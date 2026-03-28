@@ -1,5 +1,5 @@
 /**
- * NutrifyMi — Interactive Website
+ * NutrifyMI — Interactive Website
  * GSAP + Lenis + Custom Cursor + Feature Tabs + Hero Rotator
  */
 (function () {

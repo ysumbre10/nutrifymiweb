@@ -8,8 +8,8 @@
   status = 301
   force = true
 
-# Custom 404
+# Custom 404 - only applies when no matching static file exists
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200
+  status = 404
